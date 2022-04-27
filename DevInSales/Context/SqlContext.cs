@@ -14,11 +14,23 @@ public class SqlContext : DbContext
     public DbSet<Address> Address { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+       var product = modelBuilder.Entity<Product>();
+        product.HasKey(x => x.Id);
+        product.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
+        product.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
+        product.Property(x => x.Suggested_Price).HasColumnName("suggested_price").HasColumnType("decimal").IsRequired();
+
+        var category = modelBuilder.Entity<Category>();
+        category.HasKey(x => x.Id);
+        category.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
+        category.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
+        category.Property(x => x.Slug).HasColumnName("slug").HasColumnType("varchar(100)").IsRequired();
+
         modelBuilder.Entity<State>().HasData(
           new State
           {
               Id = 11,
-              Name = "Rondônia",
+              Name = "Rondï¿½nia",
               Initials = "RO"
           },
           new State
@@ -42,13 +54,13 @@ public class SqlContext : DbContext
           new State
           {
               Id = 15,
-              Name = "Pará",
+              Name = "Parï¿½",
               Initials = "PA"
           },
           new State
           {
               Id = 16,
-              Name = "Amapá",
+              Name = "Amapï¿½",
               Initials = "AP"
           },
           new State
@@ -60,19 +72,19 @@ public class SqlContext : DbContext
           new State
           {
               Id = 21,
-              Name = "Maranhão",
+              Name = "Maranhï¿½o",
               Initials = "MA"
           },
           new State
           {
               Id = 22,
-              Name = "Piauí",
+              Name = "Piauï¿½",
               Initials = "PI"
           },
           new State
           {
               Id = 23,
-              Name = "Ceará",
+              Name = "Cearï¿½",
               Initials = "CE"
           },
           new State
@@ -84,7 +96,7 @@ public class SqlContext : DbContext
           new State
           {
               Id = 25,
-              Name = "Paraíba",
+              Name = "Paraï¿½ba",
               Initials = "PB"
           },
           new State
@@ -132,13 +144,13 @@ public class SqlContext : DbContext
           new State
           {
               Id = 35,
-              Name = "São Paulo",
+              Name = "Sï¿½o Paulo",
               Initials = "SP"
           },
           new State
           {
               Id = 41,
-              Name = "Paraná",
+              Name = "Paranï¿½",
               Initials = "PR"
           },
           new State
@@ -177,7 +189,9 @@ public class SqlContext : DbContext
               Name = "Distrito Federal",
               Initials = "DF"
           });
+          
     }
 
 }
+
 
