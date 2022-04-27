@@ -4,6 +4,7 @@ using DevInSales.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220427223924_AdicionadoDelivery")]
+    partial class AdicionadoDelivery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,37 +23,8 @@ namespace DevInSales.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-            
-modelBuilder.Entity("DevInSales.Models.Order", b =>                 
-                {                    
-                    b.Property<int>("id")                         
-                        .ValueGeneratedOnAdd()                         
-                        .HasColumnType("int");                     
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);                      
-
-                    b.Property<DateTime>("date_order")                         
-                        .HasColumnType("datetime2");
-                        
-                    b.Property<int>("seller_id")                         
-                        .HasColumnType("int");                      
-                        
-                    b.Property<string>("shipping_company")                        
-                        .IsRequired()                         
-                        .HasColumnType("nvarchar(max)"); 
-                        
-                    b.Property<float>("shipping_company_price")                         
-                        .HasColumnType("real"); 
-                        
-                    b.Property<int>("user_id")                         
-                        .HasColumnType("int"); 
-                        
-                    b.HasKey("id"); 
-                    
-                    b.ToTable("Order");                 
-                });
-
-modelBuilder.Entity("DevInSales.Models.delivery", b =>
+            modelBuilder.Entity("DevInSales.Models.delivery", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()

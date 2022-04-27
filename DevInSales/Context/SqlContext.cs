@@ -10,4 +10,5 @@ public class SqlContext : DbContext
     public DbSet<Profile> Profile { get; set; }
     public DbSet<order_product> order_product { get; set; }
     public DbSet<Order> Order { get; set; }
+    public DbSet<delivery> delivery { get; set; }
 }
