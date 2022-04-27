@@ -18,7 +18,7 @@ namespace DevInSales.Migrations
                 oldType: "decimal(18,2)");
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "order",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -38,7 +38,7 @@ namespace DevInSales.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "order");
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "unit_price",

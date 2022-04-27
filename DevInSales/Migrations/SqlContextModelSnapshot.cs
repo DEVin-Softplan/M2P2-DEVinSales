@@ -22,7 +22,7 @@ namespace DevInSales.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
             
-modelBuilder.Entity("DevInSales.Models.Order", b =>                 
+modelBuilder.Entity("DevInSales.Models.order", b =>                 
                 {                    
                     b.Property<int>("id")                         
                         .ValueGeneratedOnAdd()                         
@@ -48,7 +48,7 @@ modelBuilder.Entity("DevInSales.Models.Order", b =>
                         
                     b.HasKey("id"); 
                     
-                    b.ToTable("Order");                 
+                    b.ToTable("order");                 
                 });
 
 modelBuilder.Entity("DevInSales.Models.delivery", b =>
