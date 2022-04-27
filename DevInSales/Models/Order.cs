@@ -7,7 +7,7 @@
         public int seller_id { get; set; }
         public DateTime date_order { get; set; }
         public string shipping_company { get; set; }
-        public decimal shipping_company_price { get; set; }
+        public float shipping_company_price { get; set; }
 
     }
 }
