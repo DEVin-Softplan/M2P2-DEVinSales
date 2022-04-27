@@ -11,9 +11,9 @@ public class SqlContext : DbContext
     public DbSet<City> City { get; set; }
     public DbSet<State> State { get; set; }
     public DbSet<Address> Address { get; set; }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
     }
- }
+
+}

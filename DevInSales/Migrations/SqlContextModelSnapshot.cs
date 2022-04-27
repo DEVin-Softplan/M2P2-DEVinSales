@@ -38,7 +38,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profile");
+                    b.ToTable("Profile", (string)null);
                 });
 
             modelBuilder.Entity("DevInSales.Models.User", b =>
@@ -76,7 +76,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("DevInSales.Models.User", b =>
