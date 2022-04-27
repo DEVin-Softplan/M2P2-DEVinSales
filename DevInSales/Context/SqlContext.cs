@@ -12,6 +12,16 @@ public class SqlContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // método para realizar a configuração das entidades com o FluentAPI
+        var product = modelBuilder.Entity<Product>();
+        product.HasKey(x => x.Id);
+        product.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
+        product.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
+        product.Property(x => x.Suggested_Price).HasColumnName("suggested_price").HasColumnType("decimal").IsRequired();
+
+        var category = modelBuilder.Entity<Category>();
+        category.HasKey(x => x.Id);
+        category.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
+        category.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
+        category.Property(x => x.Slug).HasColumnName("slug").HasColumnType("varchar(100)").IsRequired();
     }
-    }
+} 
