@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220427224509_Adcionando-Modelo-Order")]
+    [Migration("20220427224509_Adcionando-Modelo-order")]
     partial class AdcionandoModeloOrder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace DevInSales.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DevInSales.Models.Order", b =>
+            modelBuilder.Entity("DevInSales.Models.order", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Order");
+                    b.ToTable("order");
                 });
 
             modelBuilder.Entity("DevInSales.Models.order_product", b =>

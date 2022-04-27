@@ -1,6 +1,6 @@
 ﻿namespace DevInSales.Models
 {
-    public class Order
+    public class order
     {
         public int id { get; set; }
         public int user_id { get; set; }
