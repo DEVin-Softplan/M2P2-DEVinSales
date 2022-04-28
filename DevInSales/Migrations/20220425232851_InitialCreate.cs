@@ -41,7 +41,7 @@ namespace DevInSales.Migrations
                         name: "FK_User_Profile_ProfileId",
                         column: x => x.ProfileId,
                         principalTable: "Profile",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

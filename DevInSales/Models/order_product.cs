@@ -3,12 +3,12 @@
 namespace DevInSales.Models;
 
 
-public class order_product
+public class Order_Product
 {
-    public int id { get; set; }
-    public int order_id { get; set; }
-    public int product_id { get; set; }
-    public float unit_price { get; set; }
-    public int amount { get; set; }
+    public int Id { get; set; }
+    public int Order_Id { get; set; }
+    public int Product_Id { get; set; }
+    public float Unit_Price { get; set; }
+    public int Amount { get; set; }
     
 }

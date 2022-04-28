@@ -24,29 +24,29 @@ namespace DevInSales.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DevInSales.Models.order_product", b =>
+            modelBuilder.Entity("DevInSales.Models.Order_Product", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("amount")
+                    b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("order_id")
+                    b.Property<int>("Order_Id")
                         .HasColumnType("int");
 
-                    b.Property<int>("product_id")
+                    b.Property<int>("Product_Id")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("unit_price")
+                    b.Property<decimal>("Unit_Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.ToTable("order_product");
+                    b.ToTable("Order_Product");
                 });
 
             modelBuilder.Entity("DevInSales.Models.Profile", b =>
@@ -54,7 +54,7 @@ namespace DevInSales.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -73,7 +73,7 @@ namespace DevInSales.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("Id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 

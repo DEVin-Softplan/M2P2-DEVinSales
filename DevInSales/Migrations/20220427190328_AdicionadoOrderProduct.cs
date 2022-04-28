@@ -9,7 +9,7 @@ namespace DevInSales.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "order_product",
+                name: "Order_Product",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -28,7 +28,7 @@ namespace DevInSales.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "order_product");
+                name: "Order_Product");
         }
     }
 }
