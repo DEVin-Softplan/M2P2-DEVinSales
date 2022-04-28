@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# IDE0058: O valor da expressão nunca é usado
+csharp_style_unused_value_expression_statement_preference = unused_local_variable
