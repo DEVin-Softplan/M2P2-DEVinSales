@@ -45,6 +45,32 @@ public class SqlContext : DbContext
            .HasColumnName("shipping_company_price")
            .IsRequired();
 
+        modelBuilder.Entity<Delivery>()
+            .Property(x => x.Id)
+            .HasColumnName("id")
+            .IsRequired();
+
+        modelBuilder.Entity<Delivery>()
+            .Property(x => x.Order_Id)
+            .HasColumnName("order_id")
+            .IsRequired();
+
+        modelBuilder.Entity<Delivery>()
+            .Property(x => x.Delivery_Forecast)
+            .HasColumnName("delivery_Forecast")
+            .IsRequired();
+
+        modelBuilder.Entity<Delivery>()
+            .Property(x => x.Delivery_Date)
+            .HasColumnName("delivery_Date");
+            
+            
+
+        modelBuilder.Entity<Delivery>()
+            .Property(x => x.Status)
+            .HasColumnName("status")
+            .IsRequired();
+
 
     }
 
