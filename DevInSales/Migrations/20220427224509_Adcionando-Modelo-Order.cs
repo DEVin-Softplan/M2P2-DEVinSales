@@ -10,15 +10,15 @@ namespace DevInSales.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<float>(
-                name: "unit_price",
-                table: "order_product",
+                name: "Unit_Price",
+                table: "Order_Product",
                 type: "real",
                 nullable: false,
                 oldClrType: typeof(decimal),
                 oldType: "decimal(18,2)");
 
             migrationBuilder.CreateTable(
-                name: "order",
+                name: "Order",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -38,11 +38,11 @@ namespace DevInSales.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "order");
+                name: "Order");
 
             migrationBuilder.AlterColumn<decimal>(
-                name: "unit_price",
-                table: "order_product",
+                name: "Unit_Price",
+                table: "Order_Product",
                 type: "decimal(18,2)",
                 nullable: false,
                 oldClrType: typeof(float),
