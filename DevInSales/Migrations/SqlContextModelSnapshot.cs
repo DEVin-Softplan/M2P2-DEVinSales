@@ -75,7 +75,7 @@ namespace DevInSales.Migrations
                     b.HasIndex("State_Id");
 
                     b.ToTable("City");
-
+                });
             modelBuilder.Entity("DevInSales.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -227,7 +227,7 @@ namespace DevInSales.Migrations
                         .IsRequired();
 
                     b.Navigation("State");
-
+                });
             modelBuilder.Entity("DevInSales.Models.Product", b =>
                 {
                     b.HasOne("DevInSales.Models.Category", "Category")
