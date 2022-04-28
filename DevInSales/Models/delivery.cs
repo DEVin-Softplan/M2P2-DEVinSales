@@ -1,12 +1,12 @@
 ﻿namespace DevInSales.Models
 {
-    public class delivery
+    public class Delivery
     {
-        public int id { get; set; }
-        public int order_id { get; set; }
-        public int address_id { get; set; }
-        public DateTime delivery_forecast { get; set; }
-        public DateTime delivery_date { get; set; }
-        public int status { get; set; }
+        public int Id { get; set; }
+        public int Order_Id { get; set; }
+        public int Address_Id { get; set; }
+        public DateTime Delivery_Forecast { get; set; }
+        public DateTime Delivery_Date { get; set; }
+        public int Status { get; set; }
     }
 }
