@@ -8,6 +8,8 @@ public class SqlContext : DbContext
     public SqlContext(DbContextOptions<SqlContext> options) : base(options) { }
     public DbSet<User> User { get; set; }
     public DbSet<Profile> Profile { get; set; }
+    public DbSet<Product> Product { get; set; }
+    public DbSet<Category> Category { get; set; }
 
     public DbSet<City> City { get; set; }
     public DbSet<State> State { get; set; }
