@@ -17,8 +17,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
       <Folder Include="DTOs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\src\DevInSales.Freight.Data\DevInSales.Freight.Data.csproj" />
     </ItemGroup>
 
 </Project>

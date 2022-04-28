@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevInSales.Models;
+using System;
 
 public class StatePrice
 {

@@ -1,8 +1,10 @@
-﻿using System;
-
-public class ShippingCompany
+﻿namespace DevInSales.Models
 {
-		public int Id { get; set; }
-		public string Name { get; set; }
-		
+    public class ShippingCompany
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+    }
+
 }
