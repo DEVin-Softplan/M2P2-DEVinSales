@@ -26,24 +26,29 @@ namespace DevInSales.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Address_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Delivery_Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("Delivery_Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delivery_Date");
 
                     b.Property<DateTime>("Delivery_Forecast")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delivery_Forecast");
 
                     b.Property<int>("Order_Id")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("order_id");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("status");
 
                     b.HasKey("Id");
 
@@ -95,16 +100,20 @@ namespace DevInSales.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Amount")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("amount");
 
                     b.Property<int>("Order_Id")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("order_id");
 
                     b.Property<int>("Product_Id")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("product_id");
 
-                    b.Property<float>("Unit_Price")
-                        .HasColumnType("real");
+                    b.Property<double>("Unit_Price")
+                        .HasColumnType("float")
+                        .HasColumnName("unit_price");
 
                     b.HasKey("Id");
 
