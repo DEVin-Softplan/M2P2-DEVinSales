@@ -1,4 +1,4 @@
-﻿using System;
+﻿using DevInSales.Models;
 
 public class CityPrice
 {
