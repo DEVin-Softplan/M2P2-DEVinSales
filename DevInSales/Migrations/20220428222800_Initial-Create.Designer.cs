@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220427190328_AdicionadoOrderProduct")]
-    partial class AdicionadoOrderProduct
+    [Migration("20220428222800_Initial-Create")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,6 +24,75 @@ namespace DevInSales.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("DevInSales.Models.Delivery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Address_Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Delivery_Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delivery_Date");
+
+                    b.Property<DateTime>("Delivery_Forecast")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("delivery_Forecast");
+
+                    b.Property<int>("Order_Id")
+                        .HasColumnType("int")
+                        .HasColumnName("order_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Delivery");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date_Order")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date_order");
+
+                    b.Property<int>("Seller_Id")
+                        .HasColumnType("int")
+                        .HasColumnName("seller_id");
+
+                    b.Property<string>("Shipping_Company")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("shipping_Company");
+
+                    b.Property<float>("Shipping_Company_Price")
+                        .HasColumnType("real")
+                        .HasColumnName("shipping_company_price");
+
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("DevInSales.Models.Order_Product", b =>
                 {
                     b.Property<int>("Id")
@@ -33,16 +102,20 @@ namespace DevInSales.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Amount")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("amount");
 
                     b.Property<int>("Order_Id")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("order_id");
 
                     b.Property<int>("Product_Id")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("product_id");
 
-                    b.Property<decimal>("Unit_Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Unit_Price")
+                        .HasColumnType("float")
+                        .HasColumnName("unit_price");
 
                     b.HasKey("Id");
 
