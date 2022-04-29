@@ -1,6 +1,6 @@
 ﻿namespace DevInSales.Seeds
 {
-    public class Delivery
+    public class CitySeed
     {
     }
 }

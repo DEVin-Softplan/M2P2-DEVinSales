@@ -1,6 +1,6 @@
 ﻿namespace DevInSales.Seeds
 {
-    public class Order_Product
+    public class Order_ProductSeed
     {
     }
 }

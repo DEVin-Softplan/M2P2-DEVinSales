@@ -1,6 +1,6 @@
 ﻿namespace DevInSales.Seeds
 {
-    public class User
+    public class UserSeed
     {
     }
 }

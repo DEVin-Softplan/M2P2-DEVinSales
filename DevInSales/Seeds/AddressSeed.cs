@@ -1,6 +1,6 @@
 ﻿namespace DevInSales.Seeds
 {
-    public class Order
+    public class AddressSeed
     {
     }
 }
