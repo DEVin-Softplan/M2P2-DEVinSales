@@ -14,12 +14,12 @@ public class SqlContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var product = modelBuilder.Entity<Order_Product>();
-        product.HasKey(x => x.Id);
-        product.Property(x => x.Order_Id).HasColumnName("order_id").HasColumnType("int").IsRequired();
-        product.Property(x => x.Product_Id).HasColumnName("product_id").HasColumnType("int").IsRequired();
-        product.Property(x => x.Unit_Price).HasColumnName("unit_price").HasColumnType("float").IsRequired();
-        product.Property(x => x.Amount).HasColumnName("amount").HasColumnType("int").IsRequired();
+        var order_product = modelBuilder.Entity<Order_Product>();
+        order_product.HasKey(x => x.Id);
+        order_product.Property(x => x.Order_Id).HasColumnName("order_id").HasColumnType("int").IsRequired();
+        order_product.Property(x => x.Product_Id).HasColumnName("product_id").HasColumnType("int").IsRequired();
+        order_product.Property(x => x.Unit_Price).HasColumnName("unit_price").HasColumnType("float").IsRequired();
+        order_product.Property(x => x.Amount).HasColumnName("amount").HasColumnType("int").IsRequired();
   
         modelBuilder.Entity<Order>()
             .Property(x => x.Id)
