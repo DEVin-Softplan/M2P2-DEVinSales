@@ -13,6 +13,9 @@ namespace DevInSales.Freight.Data.Mapping
             builder.Property(t => t.Name)
                 .HasColumnType("varchar")
                 .HasMaxLength(255);
+
+            builder.HasMany(t => t.StatesPrices)
+                   .WithOne(t => t.ShippingCompany);
         }
     }
 }
