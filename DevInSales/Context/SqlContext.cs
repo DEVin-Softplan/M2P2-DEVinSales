@@ -16,25 +16,25 @@ public class SqlContext : DbContext
     {
         var order_product = modelBuilder.Entity<Order_Product>();
         order_product.HasKey(x => x.Id);
-        order_product.Property(x => x.Order_Id).HasColumnName("order_id").HasColumnType("int").IsRequired();
-        order_product.Property(x => x.Product_Id).HasColumnName("product_id").HasColumnType("int").IsRequired();
+        order_product.Property(x => x.Order).HasColumnName("order_id").IsRequired();
+        order_product.Property(x => x.Product).HasColumnName("product_id").IsRequired();
         order_product.Property(x => x.Unit_Price).HasColumnName("unit_price").HasColumnType("decimal").IsRequired();
         order_product.Property(x => x.Amount).HasColumnName("amount").HasColumnType("int").IsRequired();
 
         var order = modelBuilder.Entity<Order>();
         order.HasKey(x => x.Id);
         order.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
-        order.Property(x => x.User_Id).HasColumnName("user_id").HasColumnType("int").IsRequired();
-        order.Property(x => x.Seller_Id).HasColumnName("seller_id").HasColumnType("int").IsRequired();
+        order.Property(x => x.User).HasColumnName("user_id").IsRequired();
+        order.Property(x => x.Seller).HasColumnName("seller_id").IsRequired();
         order.Property(x => x.Date_Order).HasColumnName("date_order").HasColumnType("date").IsRequired();
-        order.Property(x => x.Shipping_Company).HasColumnName("shipping_Company").HasColumnType("varchar(50)").IsRequired();
-        order.Property(x => x.Shipping_Company_Price).HasColumnName("shipping_company_price").HasColumnType("varchar(50)").IsRequired();
+        order.Property(x => x.Shipping_Company).HasColumnName("shipping_Company").IsRequired();
+        order.Property(x => x.Shipping_Company_Price).HasColumnName("shipping_company_price").IsRequired();
 
         var delivery = modelBuilder.Entity<Delivery>();
         delivery.HasKey(x => x.Id);
         delivery.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
-        delivery.Property(x => x.Order_Id).HasColumnName("order_id").HasColumnType("int").IsRequired();
-        delivery.Property(x => x.Address_Id).HasColumnName("address_id").HasColumnType("int").IsRequired();
+        delivery.Property(x => x.Order).HasColumnName("order_id").IsRequired();
+        delivery.Property(x => x.Address).HasColumnName("address_id").IsRequired();
         delivery.Property(x => x.Delivery_Forecast).HasColumnName("delivery_Forecast").HasColumnType("date").IsRequired();
         delivery.Property(x => x.Delivery_Date).HasColumnName("delivery_Date").HasColumnType("date");
         delivery.Property(x => x.Status).HasColumnName("status").HasColumnType("int").IsRequired();
