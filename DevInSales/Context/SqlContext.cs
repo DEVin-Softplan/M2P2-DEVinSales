@@ -34,6 +34,7 @@ public class SqlContext : DbContext
         delivery.HasKey(x => x.Id);
         delivery.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
         delivery.Property(x => x.Order_Id).HasColumnName("order_id").HasColumnType("int").IsRequired();
+        delivery.Property(x => x.Address_Id).HasColumnName("address_id").HasColumnType("int").IsRequired();
         delivery.Property(x => x.Delivery_Forecast).HasColumnName("delivery_Forecast").HasColumnType("date").IsRequired();
         delivery.Property(x => x.Delivery_Date).HasColumnName("delivery_Date").HasColumnType("date");
         delivery.Property(x => x.Status).HasColumnName("status").HasColumnType("int").IsRequired();
