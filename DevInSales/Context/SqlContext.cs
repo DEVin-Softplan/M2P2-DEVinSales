@@ -28,8 +28,8 @@ public class SqlContext : DbContext
         category.Property(x => x.Slug).HasColumnName("slug").HasColumnType("varchar(100)").IsRequired();
 
         modelBuilder.Entity<State>().HasData(StateSeed.Seed);
-      
-          
+
+        modelBuilder.Entity<City>().HasData(CitySeed.Seed());
     }
 
 }
