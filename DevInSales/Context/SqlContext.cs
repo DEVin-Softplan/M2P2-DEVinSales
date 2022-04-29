@@ -16,8 +16,8 @@ public class SqlContext : DbContext
     {
         var order_product = modelBuilder.Entity<Order_Product>();
         order_product.HasKey(x => x.Id);
-        order_product.Property(x => x.Order).HasColumnName("order_id").IsRequired();
-        order_product.Property(x => x.Product).HasColumnName("product_id").IsRequired();
+        order_product.Property(x => x.Orders).HasColumnName("order_id").IsRequired();
+        order_product.Property(x => x.Products).HasColumnName("product_id").IsRequired();
         order_product.Property(x => x.Unit_Price).HasColumnName("unit_price").HasColumnType("decimal").IsRequired();
         order_product.Property(x => x.Amount).HasColumnName("amount").HasColumnType("int").IsRequired();
 
