@@ -1,4 +1,5 @@
 using DevInSales.Context;
+using DevInSales.Seeds;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

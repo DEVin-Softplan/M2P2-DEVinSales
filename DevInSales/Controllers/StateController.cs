@@ -24,9 +24,18 @@ namespace DevInSales.Controllers
 
         // GET: api/State
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<State>>> GetState()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<IEnumerable<State>>> GetState(string name)
         {
-            return await _context.State.ToListAsync();
+            List <State> retorno = new List<State>();
+            if(name == null)
+                return Ok(await _context.State.ToListAsync());
+            var temp = await _context.State.FirstOrDefaultAsync(x => x.Name.Contains(name));
+            if (temp == null)
+                return NoContent();
+            retorno.Add(temp);
+            return Ok(retorno);
         }
 
         // GET: api/State/5

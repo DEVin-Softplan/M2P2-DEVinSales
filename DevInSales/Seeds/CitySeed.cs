@@ -1,6 +1,10 @@
-﻿namespace DevInSales.Seeds
+﻿using DevInSales.Models;
+
+namespace DevInSales.Seeds
 {
-    public class CitySeed
+    public static class CitySeed
     {
+
+        
     }
 }
