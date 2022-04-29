@@ -15,4 +15,6 @@ public class User
     [Column("birth_date")]
     public DateTime BirthDate { get; set; }
     public Profile Profile { get; set; }
+    public ICollection<Order> Orders { get; set; }
+
 }
