@@ -4,8 +4,8 @@
     {
         AguardandoAprovacaoDePagamento = 1,
         PreparandoPacote = 2,
-        PedidoEnviando = 3,
+        PedidoEnviado = 3,
         PedidoEmTransporte = 4,
-        PedidoEntregue= 5,
+        PedidoEntregue = 5,
     }
 }
