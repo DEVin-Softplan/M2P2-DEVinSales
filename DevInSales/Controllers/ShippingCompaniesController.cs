@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DevInSales.Context;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DevInSales.Context;
 
 namespace DevInSales.Controllers
 {

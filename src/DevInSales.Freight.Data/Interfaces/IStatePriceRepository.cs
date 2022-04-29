@@ -2,7 +2,7 @@
 
 namespace DevInSales.Freight.Data.Interfaces
 {
-    public interface IShippingCompanyRepository : IRepository<ShippingCompanyModel>
+    public interface IStatePriceRepository : IRepository<StatePriceModel>
     {
     }
 }
