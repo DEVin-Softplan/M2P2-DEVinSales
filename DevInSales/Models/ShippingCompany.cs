@@ -1,9 +1,9 @@
 ﻿namespace DevInSales.Models
 {
-    public class ShippingCompany
+    public class ShippingCompany : EntityBase
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public virtual IEnumerable<StatePrice> StatesPrices { get; set; }
 
     }
 

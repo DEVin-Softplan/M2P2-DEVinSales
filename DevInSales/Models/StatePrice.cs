@@ -1,10 +1,11 @@
 ﻿using DevInSales.Models;
-using System;
 
-public class StatePrice
+public class StatePrice : EntityBase
 {
-		public int Id { get; set; }
-		public int StateId { get; set; }
-		public ShippingCompany ShippingCompanyId { get; set; }
-		public decimal BasePrice{ get; set; }
+    public int StateId { get; set; }
+    public int ShippingCompanyId { get; set; }
+    public decimal BasePrice { get; set; }
+
+    public virtual StateModel State { get; set; }
+    public virtual ShippingCompany ShippingCompany { get; set; }
 }

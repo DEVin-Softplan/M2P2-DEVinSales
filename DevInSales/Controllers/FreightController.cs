@@ -1,4 +1,4 @@
-﻿using DevInSales.Freight.Data.Interfaces;
+﻿using DevInSales.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevInSales.Controllers
@@ -36,7 +36,7 @@ namespace DevInSales.Controllers
             if (!CompanyExist(companyId))
                 return NotFound();
 
-            var tabelaPreco = _statePriceRepository.Buscar(c => c.ShippingCompanyId == companyId && c.StateId == stateId).Select(c=> new { BasePreco = c.BasePreco }) ;
+            var tabelaPreco = _statePriceRepository.Buscar(c => c.ShippingCompanyId == companyId && c.StateId == stateId).Select(c=> new { BasePreco = c.BasePrice }) ;
 
             return Ok(tabelaPreco);
 
