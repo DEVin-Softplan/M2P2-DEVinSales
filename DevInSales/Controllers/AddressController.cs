@@ -11,7 +11,7 @@ using DevInSales.Models;
 
 namespace DevInSales.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/address")]
     [ApiController]
     public class AddressController : ControllerBase
     {

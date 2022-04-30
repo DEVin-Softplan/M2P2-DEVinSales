@@ -31,9 +31,6 @@ public class SqlContext : DbContext
         category.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
         category.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
         category.Property(x => x.Slug).HasColumnName("slug").HasColumnType("varchar(100)").IsRequired();
-
-        modelBuilder.Entity<State>().HasData(
-         StateSeed.Seed);
          
         var order_product = modelBuilder.Entity<Order_Product>();
         order_product.HasKey(x => x.Id);
@@ -54,6 +51,9 @@ public class SqlContext : DbContext
         delivery.Property(x => x.Delivery_Forecast).HasColumnName("delivery_Forecast").HasColumnType("date").IsRequired();
         delivery.Property(x => x.Delivery_Date).HasColumnName("delivery_Date").HasColumnType("date");
         delivery.Property(x => x.Status).HasColumnName("status").HasColumnType("int").IsRequired();
+        
+        modelBuilder.Entity<State>().HasData(StateSeed.Seed);
 
+        modelBuilder.Entity<City>().HasData(CitySeed.Seed());
     }
 }

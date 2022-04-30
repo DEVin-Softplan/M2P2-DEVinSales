@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DevInSales.Context;
 using DevInSales.Models;
+using DevInSales.DTOs;
 
 namespace DevInSales.Controllers
 {
@@ -24,9 +25,18 @@ namespace DevInSales.Controllers
 
         // GET: api/State
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<State>>> GetState()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<IEnumerable<State>>> GetState(string name)
         {
-            return await _context.State.ToListAsync();
+            List<State> retorno = new List<State>();
+            if (name == null)
+                return Ok(await _context.State.ToListAsync());
+            var temp = await _context.State.FirstOrDefaultAsync(x => x.Name.Contains(name));
+            if (temp == null)
+                return NoContent();
+            retorno.Add(temp);
+            return Ok(retorno);
         }
 
         // GET: api/State/5
@@ -42,6 +52,33 @@ namespace DevInSales.Controllers
 
             return state;
         }
+
+        [HttpGet("{State_Id}/city/{City_Id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CityStateDTO>> GetByIdStateCity(int State_Id, int City_Id)
+        {
+            //return _sqlContext.Clientes.Include(x => x.Endereco).Select(x => (ClienteDTO)x).ToList();
+            var state_find = await _context.State.FindAsync(State_Id);
+            var city_find = await _context.City.FindAsync(City_Id);
+
+            if (state_find == null || city_find == null)
+            {
+                return NotFound();
+            }
+            if (city_find.State_Id != State_Id)
+                return BadRequest();
+            var statecity_include = new CityStateDTO
+            {
+                State_Id = State_Id,
+                City_Id = City_Id,
+                Name_City = city_find.Name,
+                Name_State = state_find.Name,
+                Initials = state_find.Initials
+            };
+                
+            return Ok(statecity_include);
+        }
+
 
         // PUT: api/State/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
