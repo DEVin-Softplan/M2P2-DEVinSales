@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220429024248_Seeds-City-State")]
-    partial class SeedsCityState
+    [Migration("20220430023010_Seeds-City-State-Address")]
+    partial class SeedsCityStateAddress
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,6 +55,35 @@ namespace DevInSales.Migrations
                     b.HasIndex("City_Id");
 
                     b.ToTable("Address");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CEP = "999999-99",
+                            City_Id = 11,
+                            Complement = "casa",
+                            Number = 22,
+                            Street = "Rua Lateral"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CEP = "999999-99",
+                            City_Id = 12,
+                            Complement = "apto",
+                            Number = 45,
+                            Street = "Rua Frente"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CEP = "999999-99",
+                            City_Id = 13,
+                            Complement = "casa",
+                            Number = 123,
+                            Street = "Rua Lateral"
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.Category", b =>
