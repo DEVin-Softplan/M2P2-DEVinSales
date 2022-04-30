@@ -358,3 +358,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /DevInSales/Controllers/CityController.cs
+/DevInSales/Seeds/CitySeed.csv
+/DevInSales/Migrations/20220429024248_Seeds-City-State.cs
+/DevInSales/Migrations/20220429024248_Seeds-City-State.Designer.cs
