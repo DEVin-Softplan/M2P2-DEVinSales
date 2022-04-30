@@ -4,7 +4,7 @@ namespace DevInSales.Models;
 
 public class User
 {
-    [Column("Id")]
+    [Column("id")]
     public int Id { get; set; }
     [Column("email")]
     public string Email { get; set; }
@@ -15,4 +15,5 @@ public class User
     [Column("birth_date")]
     public DateTime BirthDate { get; set; }
     public Profile Profile { get; set; }
+    public ICollection<Order> Orders { get; set; }
 }
