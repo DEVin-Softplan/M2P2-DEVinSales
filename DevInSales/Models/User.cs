@@ -4,7 +4,7 @@ namespace DevInSales.Models;
 
 public class User
 {
-    [Column("id")]
+    [Column("Id")]
     public int Id { get; set; }
     [Column("email")]
     public string Email { get; set; }
