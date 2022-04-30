@@ -4,6 +4,7 @@ using DevInSales.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220427230100_AdicionadoRelacionamentoProductCategory")]
+    partial class AdicionadoRelacionamentoProductCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace DevInSales.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("DevInSales.Models.Delivery", b =>
+            modelBuilder.Entity("DevInSales.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,93 +33,47 @@ namespace DevInSales.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Address_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("Delivery_Date")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("delivery_Date");
-
-                    b.Property<DateTime>("Delivery_Forecast")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("delivery_Forecast");
-
-                    b.Property<int>("Order_Id")
-                        .HasColumnType("int")
-                        .HasColumnName("order_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("status");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Delivery");
-                });
-
-            modelBuilder.Entity("DevInSales.Models.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date_Order")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("date_order");
-
-                    b.Property<int>("Seller_Id")
-                        .HasColumnType("int")
-                        .HasColumnName("seller_id");
-
-                    b.Property<string>("Shipping_Company")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("shipping_Company");
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("name");
 
-                    b.Property<float>("Shipping_Company_Price")
-                        .HasColumnType("real")
-                        .HasColumnName("shipping_company_price");
-
-                    b.Property<int>("User_Id")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("slug");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Order");
+                    b.ToTable("Category");
                 });
 
-            modelBuilder.Entity("DevInSales.Models.Order_Product", b =>
+            modelBuilder.Entity("DevInSales.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int")
-                        .HasColumnName("amount");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Order_Id")
-                        .HasColumnType("int")
-                        .HasColumnName("order_id");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("name");
 
-                    b.Property<int>("Product_Id")
-                        .HasColumnType("int")
-                        .HasColumnName("product_id");
-
-                    b.Property<double>("Unit_Price")
-                        .HasColumnType("float")
-                        .HasColumnName("unit_price");
+                    b.Property<decimal>("Suggested_Price")
+                        .HasColumnType("decimal")
+                        .HasColumnName("suggested_price");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Order_Product");
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("DevInSales.Models.Profile", b =>
@@ -125,7 +81,7 @@ namespace DevInSales.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("Id");
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -144,7 +100,7 @@ namespace DevInSales.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("Id");
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
@@ -177,6 +133,17 @@ namespace DevInSales.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("DevInSales.Models.Product", b =>
+                {
+                    b.HasOne("DevInSales.Models.Category", "Category")
+                        .WithMany("Product")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("DevInSales.Models.User", b =>
                 {
                     b.HasOne("DevInSales.Models.Profile", "Profile")
@@ -186,6 +153,11 @@ namespace DevInSales.Migrations
                         .IsRequired();
 
                     b.Navigation("Profile");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Category", b =>
+                {
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }
