@@ -1,6 +1,7 @@
-﻿using DevInSales.Freight.Data.Context;
-using DevInSales.Freight.Data.Interfaces;
-using DevInSales.Freight.Data.Repositories;
+﻿
+using DevInSales.Context;
+using DevInSales.Interfaces;
+using DevInSales.Repositories;
 
 namespace DevInSales.Config
 {
@@ -11,7 +12,7 @@ namespace DevInSales.Config
 
             services.AddScoped<IShippingCompanyRepository, ShippingCompanyRepository>();
             services.AddScoped<IStatePriceRepository, StatePriceRepository>();
-            services.AddScoped<FreightContext>();
+            services.AddScoped<SqlContext>();
         }
     }
 }

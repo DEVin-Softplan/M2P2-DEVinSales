@@ -1,6 +1,5 @@
 using DevInSales.Config;
 using DevInSales.Context;
-using DevInSales.Freight.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,8 +12,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SqlContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("ServerConnection")));
-
-builder.Services.AddDbContext<FreightContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("FreightConnection")));
 
 builder.Services.AddDIConfiguration();
 
