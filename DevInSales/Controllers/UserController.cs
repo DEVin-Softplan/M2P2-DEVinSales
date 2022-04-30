@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DevInSales.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DevInSales.Controllers
 {
@@ -7,6 +8,10 @@ namespace DevInSales.Controllers
     public class UserController : ControllerBase
     {
 
-
+        [HttpPost]
+        public UserPostDTO Create([FromBody] UserPostDTO user)
+        {
+            return user;
+        }
     }
 }

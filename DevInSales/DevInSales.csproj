@@ -7,6 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="DTOs\Requests\**" />
+      <Content Remove="DTOs\Requests\**" />
+      <EmbeddedResource Remove="DTOs\Requests\**" />
+      <None Remove="DTOs\Requests\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
           <PrivateAssets>all</PrivateAssets>
@@ -20,8 +27,6 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="DTOs" />
-    </ItemGroup>
+    <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
