@@ -17,20 +17,27 @@ namespace DevInSales.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserPostDTO>> Create([FromBody] UserPostDTO userDTO)
+        public async Task<ActionResult<UserPostDTO>> Create([FromBody] UserPostDTO requisicao)
         {
-            if (!isDataNascimentoValida(userDTO.BirthDate))
+            if (!isDataNascimentoValida(requisicao.BirthDate))
             {
                 return BadRequest("O usuário deve ser maior de 18 anos.");
             }
 
-            var perfil = await _context.Profile.FindAsync(userDTO.ProfileId);
+            bool isEmailExistente = _context.User.Any(user => user.Email == requisicao.Email);
+            if (isEmailExistente)
+            {
+                return BadRequest("O email informado já existe.");
+            }
+
+
+            var perfil = await _context.Profile.FindAsync(requisicao.ProfileId);
             if (perfil == null)
             {
                 return NotFound("O perfil informado não foi encontrado.");
             }
 
-            return Ok(userDTO);
+            return Ok(requisicao);
         }
 
         private bool isDataNascimentoValida(string data)
