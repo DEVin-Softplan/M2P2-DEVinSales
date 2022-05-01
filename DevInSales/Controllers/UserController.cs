@@ -55,7 +55,7 @@ namespace DevInSales.Controllers
             _context.User.Add(novoUsuario);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("Create", new { id = novoUsuario.Id }, novoUsuario);
+            return CreatedAtAction("Create", new { id = novoUsuario.Id });
         }
 
         private bool isDataNascimentoValida(string data)
