@@ -30,12 +30,13 @@ namespace DevInSales.Controllers
                 return BadRequest("O email informado já existe.");
             }
 
-
             var perfil = await _context.Profile.FindAsync(requisicao.ProfileId);
             if (perfil == null)
             {
                 return NotFound("O perfil informado não foi encontrado.");
             }
+
+            var novoUsuario = UserPostDTO.ConverterParaEntidade(requisicao, perfil);
 
             return Ok(requisicao);
         }

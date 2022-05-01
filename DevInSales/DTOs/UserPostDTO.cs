@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using DevInSales.Models;
 
 namespace DevInSales.DTOs
 {
@@ -29,5 +31,22 @@ namespace DevInSales.DTOs
         [Range(1, int.MaxValue, ErrorMessage = "O campo {0} deve ser informado.")]
         [Display(Name = "profileId")]
         public int ProfileId { get; set; }
+
+        public static User ConverterParaEntidade(UserPostDTO requisicao, Profile profile)
+        {
+            if (requisicao == null)
+            {
+                return null;
+            }
+                
+            return new User()
+            {
+                Name = requisicao.Name,
+                Email = requisicao.Email,
+                Password = requisicao.Password,
+                BirthDate = DateTime.ParseExact(requisicao.BirthDate, "dd/MM/yyyy", new CultureInfo("pt-BR")),
+                Profile = profile
+            };
+        }
     }
 }
