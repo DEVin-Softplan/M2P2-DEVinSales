@@ -4,6 +4,7 @@ using DevInSales.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace DevInSales.Controllers
 {
@@ -19,7 +20,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get(
+        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> Get(
             [FromQuery] string? name, [FromQuery] string? birth_date_min, [FromQuery] string? birth_date_max)
         {
             var consulta = _context.User as IQueryable<User>;
@@ -43,13 +44,15 @@ namespace DevInSales.Controllers
             }
 
             var usuarios = await consulta.OrderBy(c => c.Name).ToListAsync();
-
             if (usuarios.Count == 0)
             {
                 return NotFound("Nenhum usuário foi encontrado.");
             }
 
-            return usuarios;
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<User, UserResponseDTO>());
+            var mapper = configuration.CreateMapper();
+
+            return Ok(mapper.Map<List<UserResponseDTO>>(usuarios)); ;
         }
 
         /// <summary>

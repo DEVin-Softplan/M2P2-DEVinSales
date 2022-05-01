@@ -14,7 +14,6 @@ namespace DevInSales.DTOs
         public string Email { get; set; }
 
         [Display(Name = "birthDate")]
-        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
     }
 }
