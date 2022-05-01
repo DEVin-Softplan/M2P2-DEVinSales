@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DevInSales.Context;
 using DevInSales.Models;
+using DevInSales.DTOs;
 
 namespace DevInSales.Controllers
 {
@@ -27,10 +28,14 @@ namespace DevInSales.Controllers
         public async Task<ActionResult<IEnumerable<Address>>> GetAddress()
         {
             return await _context.Address.ToListAsync();
+
         }
 
         // GET: api/Addresse/5
         [HttpGet("{id}")]
+
+
+
         public async Task<ActionResult<Address>> GetAddress(int id)
         {
             var address = await _context.Address.FindAsync(id);
@@ -42,6 +47,47 @@ namespace DevInSales.Controllers
 
             return address;
         }
+
+        [HttpGet("address")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        //public async Task<ActionResult<IEnumerable<AddressDTO>>> GetAddress(string CEP, string Street, CityStateDTO CityStateDTO)
+        //{
+
+        //    List<Address> retorno = new List<Address>();
+        //    if (Street == null)
+        //        return Ok(await _context.Address.ToListAsync());
+
+        //    var temporario = await _context.Address.FirstOrDefaultAsync(x => x.Street.Contains(Street));
+
+        //    if (temporario == null)
+        //        return NoContent();
+        //    retorno.Add(temporario);
+        //    return Ok(retorno);
+        //}
+
+        public async Task<ActionResult<AddressDTO>> GetAddress(string CEP, string Street, CityStateDTO CityStateDTO)
+        {
+            //return _sqlContext.Clientes.Include(x => x.Endereco).Select(x => (ClienteDTO)x).ToList();
+            var street_find = await _context.Address.FindAsync(Street);
+            var cep_find = await _context.Address.FindAsync(CEP);
+
+            if (street_find == null && cep_find == null)
+            {
+                return NoContent();
+               
+                List<AddressDTO> addresses = new List<AddressDTO>();
+                addresses.Add(new AddressDTO());
+
+
+            }
+            else
+            {
+                return new AddressDTO();
+            }
+
+        }
+
 
         // PUT: api/Addresse/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
