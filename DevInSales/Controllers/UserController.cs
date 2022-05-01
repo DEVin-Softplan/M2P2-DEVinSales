@@ -44,6 +44,11 @@ namespace DevInSales.Controllers
 
             var usuarios = await consulta.OrderBy(c => c.Name).ToListAsync();
 
+            if (usuarios.Count == 0)
+            {
+                return NotFound("Nenhum usuário foi encontrado.");
+            }
+
             return usuarios;
         }
 
