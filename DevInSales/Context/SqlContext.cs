@@ -38,6 +38,10 @@ public class SqlContext : DbContext
         modelBuilder.Entity<Category>().HasData(CategorySeed.Seed);
 
         modelBuilder.Entity<Profile>().HasData(ProfileSeed.Seed);
+
+        modelBuilder.Entity<User>().HasData(UserSeed.Seed);
+
+        modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
     }
 
 }
