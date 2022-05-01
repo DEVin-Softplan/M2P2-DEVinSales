@@ -3,6 +3,8 @@ using DevInSales.Models;
 using DevInSales.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace DevInSales.Controllers
 {
@@ -18,7 +20,58 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
-        /// Cadastra um novo User.
+        /// Consulta lista de usuários.
+        /// </summary>
+        /// <param name="name">Filtra por nome do usuário.</param>
+        /// <param name="birth_date_min">Filtra por data de nascimento mínima.</param>
+        /// <param name="birth_date_max">Filtra por data de nascimento máxima.</param>
+        /// <returns>Retorna lista de usuários consultados.</returns>
+        /// <response code="200">Retorno da lista de usuários consultados.</response>
+        /// <response code="400">Requisição inválida.</response>
+        /// <response code="404">Usuário não encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante a consulta.</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> Get(
+            [FromQuery] string? name, [FromQuery] string? birth_date_min, [FromQuery] string? birth_date_max)
+        {
+            var consulta = _context.User as IQueryable<User>;
+            consulta = consulta.Where(u => u.Profile.Id == 1);
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                consulta = consulta.Where(u => u.Name.Contains(name));
+            }
+
+            if (!string.IsNullOrWhiteSpace(birth_date_min))
+            {
+                var dataNascimentoMinimia = DateTime.ParseExact(birth_date_min, "dd/MM/yyyy", new CultureInfo("pt-BR"));
+                consulta = consulta.Where(u => u.BirthDate >= dataNascimentoMinimia);
+            }
+
+            if (!string.IsNullOrWhiteSpace(birth_date_max))
+            {
+                var dataNascimentoMaxima = DateTime.ParseExact(birth_date_max, "dd/MM/yyyy", new CultureInfo("pt-BR"));
+                consulta = consulta.Where(u => u.BirthDate <= dataNascimentoMaxima);
+            }
+
+            var usuarios = await consulta.OrderBy(c => c.Name).ToListAsync();
+            if (usuarios.Count == 0)
+            {
+                return NotFound("Nenhum usuário foi encontrado.");
+            }
+
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<User, UserResponseDTO>());
+            var mapper = configuration.CreateMapper();
+
+            return Ok(mapper.Map<List<UserResponseDTO>>(usuarios)); ;
+        }
+
+        /// <summary>
+        /// Cadastra um novo usuário.
         /// </summary>
         /// <param name="requisicao">Representa as informações do novo usuário.</param>
         /// <returns>Retorna o resultado do User cadastrado.</returns>
@@ -26,13 +79,12 @@ namespace DevInSales.Controllers
         /// <response code="400">Usuário menor de idade ou email já cadastrado.</response>
         /// <response code="404">Perfil não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante o cadastro.</response>
-        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<ActionResult<User>> Create([FromBody] UserPostDTO requisicao)
+        public async Task<ActionResult<User>> Create([FromBody] UserCreateDTO requisicao)
         {
             if (!isDataNascimentoValida(requisicao.BirthDate))
             {
@@ -51,11 +103,11 @@ namespace DevInSales.Controllers
                 return NotFound("O perfil informado não foi encontrado.");
             }
 
-            var novoUsuario = UserPostDTO.ConverterParaEntidade(requisicao, perfil);
+            var novoUsuario = UserCreateDTO.ConverterParaEntidade(requisicao, perfil);
             _context.User.Add(novoUsuario);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("Create", new { id = novoUsuario.Id }, novoUsuario);
+            return CreatedAtAction("Create", new { id = novoUsuario.Id });
         }
 
         private bool isDataNascimentoValida(string data)
