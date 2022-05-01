@@ -84,7 +84,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<ActionResult<User>> Create([FromBody] UserPostDTO requisicao)
+        public async Task<ActionResult<User>> Create([FromBody] UserCreateDTO requisicao)
         {
             if (!isDataNascimentoValida(requisicao.BirthDate))
             {
@@ -103,7 +103,7 @@ namespace DevInSales.Controllers
                 return NotFound("O perfil informado não foi encontrado.");
             }
 
-            var novoUsuario = UserPostDTO.ConverterParaEntidade(requisicao, perfil);
+            var novoUsuario = UserCreateDTO.ConverterParaEntidade(requisicao, perfil);
             _context.User.Add(novoUsuario);
             await _context.SaveChangesAsync();
 
