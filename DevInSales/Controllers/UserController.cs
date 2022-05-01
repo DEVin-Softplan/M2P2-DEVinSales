@@ -1,4 +1,5 @@
 ﻿using DevInSales.DTOs;
+using DevInSales.Models;
 using DevInSales.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
@@ -17,7 +18,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserPostDTO>> Create([FromBody] UserPostDTO requisicao)
+        public async Task<ActionResult<User>> Create([FromBody] UserPostDTO requisicao)
         {
             if (!isDataNascimentoValida(requisicao.BirthDate))
             {
@@ -37,8 +38,10 @@ namespace DevInSales.Controllers
             }
 
             var novoUsuario = UserPostDTO.ConverterParaEntidade(requisicao, perfil);
+            _context.User.Add(novoUsuario);
+            await _context.SaveChangesAsync();
 
-            return Ok(requisicao);
+            return CreatedAtAction("Create", new { id = novoUsuario.Id }, novoUsuario);
         }
 
         private bool isDataNascimentoValida(string data)
