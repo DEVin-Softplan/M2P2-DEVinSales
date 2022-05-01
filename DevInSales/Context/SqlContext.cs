@@ -34,6 +34,10 @@ public class SqlContext : DbContext
         modelBuilder.Entity<City>().HasData(CitySeed.Seed());
         
         modelBuilder.Entity<Address>().HasData(AddressSeed.Seed);
+
+        modelBuilder.Entity<Category>().HasData(CategorySeed.Seed);
+
+        modelBuilder.Entity<Profile>().HasData(ProfileSeed.Seed);
     }
 
 }
