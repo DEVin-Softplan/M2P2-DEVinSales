@@ -23,6 +23,7 @@ namespace DevInSales.Controllers
             [FromQuery] string? name, [FromQuery] string? birth_date_min, [FromQuery] string? birth_date_max)
         {
             var consulta = _context.User as IQueryable<User>;
+            consulta = consulta.Where(u => u.Profile.Id == 1);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
