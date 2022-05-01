@@ -3,6 +3,7 @@ using DevInSales.Models;
 using DevInSales.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevInSales.Controllers
 {
@@ -18,10 +19,31 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> Get(
+        public async Task<ActionResult<IEnumerable<User>>> Get(
             [FromQuery] string? name, [FromQuery] string? birth_date_min, [FromQuery] string? birth_date_max)
         {
-            return null;
+            var consulta = _context.User as IQueryable<User>;
+
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                consulta = consulta.Where(u => u.Name.Contains(name));
+            }
+
+            if (!string.IsNullOrWhiteSpace(birth_date_min))
+            {
+                var dataNascimentoMinimia = DateTime.ParseExact(birth_date_min, "dd/MM/yyyy", new CultureInfo("pt-BR"));
+                consulta = consulta.Where(u => u.BirthDate >= dataNascimentoMinimia);
+            }
+
+            if (!string.IsNullOrWhiteSpace(birth_date_max))
+            {
+                var dataNascimentoMaxima = DateTime.ParseExact(birth_date_max, "dd/MM/yyyy", new CultureInfo("pt-BR"));
+                consulta = consulta.Where(u => u.BirthDate <= dataNascimentoMaxima);
+            }
+
+            var usuarios = await consulta.OrderBy(c => c.Name).ToListAsync();
+
+            return usuarios;
         }
 
         /// <summary>
