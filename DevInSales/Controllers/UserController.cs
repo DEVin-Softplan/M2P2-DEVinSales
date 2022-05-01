@@ -17,6 +17,13 @@ namespace DevInSales.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> Get(
+            [FromQuery] string? name, [FromQuery] string? birth_date_min, [FromQuery] string? birth_date_max)
+        {
+            return null;
+        }
+
         /// <summary>
         /// Cadastra um novo User.
         /// </summary>
