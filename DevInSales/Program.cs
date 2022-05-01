@@ -1,4 +1,9 @@
 using DevInSales.Context;
+
+
+
+using DevInSales.Seeds;
+
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
