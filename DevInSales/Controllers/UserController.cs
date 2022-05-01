@@ -17,6 +17,20 @@ namespace DevInSales.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Cadastra um novo User.
+        /// </summary>
+        /// <param name="requisicao">Representa as informações do novo usuário.</param>
+        /// <returns>Retorna o resultado do User cadastrado.</returns>
+        /// <response code="200">Retorno do User cadastrado.</response>
+        /// <response code="400">Usuário menor de idade ou email já cadastrado.</response>
+        /// <response code="404">Perfil não encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante o cadastro.</response>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         public async Task<ActionResult<User>> Create([FromBody] UserPostDTO requisicao)
         {
