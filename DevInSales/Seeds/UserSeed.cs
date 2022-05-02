@@ -23,10 +23,10 @@ namespace DevInSales.Seeds
         }, new User()
         {
             Id = 3,
-            Name = "Gustavo Levi Ferreira",
+            Name = "Henrique Luiz Lemos",
             BirthDate = new DateTime(1986, 3, 14),
-            Email = "gustavo_levi_ferreira@gmail.com",
-            Password = "gustavo%ferreira20",
+            Email = "Henrique Luiz Lemos",
+            Password = "lemos$2022",
             ProfileId = 1
         }, new User()
         {
