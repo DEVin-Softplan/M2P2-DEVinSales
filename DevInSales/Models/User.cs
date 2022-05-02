@@ -15,4 +15,9 @@ public class User
     [Column("birth_date")]
     public DateTime BirthDate { get; set; }
     public Profile Profile { get; set; }
+    public int ProfileId { get; set; }
+
+    public User()
+    {
+    }
 }
