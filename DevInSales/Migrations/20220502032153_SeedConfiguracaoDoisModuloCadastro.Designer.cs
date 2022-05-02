@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220501233330_SeedConfiguracaoDoisModuloCadastro")]
+    [Migration("20220502032153_SeedConfiguracaoDoisModuloCadastro")]
     partial class SeedConfiguracaoDoisModuloCadastro
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33592,7 +33592,8 @@ namespace DevInSales.Migrations
                         .HasColumnName("name");
 
                     b.Property<decimal>("Suggested_Price")
-                        .HasColumnType("decimal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("suggested_price");
 
                     b.HasKey("Id");
@@ -33945,9 +33946,9 @@ namespace DevInSales.Migrations
                         {
                             Id = 3,
                             BirthDate = new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "gustavo_levi_ferreira@gmail.com",
-                            Name = "Gustavo Levi Ferreira",
-                            Password = "gustavo%ferreira20",
+                            Email = "Henrique Luiz Lemos",
+                            Name = "Henrique Luiz Lemos",
+                            Password = "lemos$2022",
                             ProfileId = 1
                         },
                         new
