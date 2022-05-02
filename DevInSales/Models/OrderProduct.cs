@@ -3,7 +3,7 @@
 namespace DevInSales.Models;
 
 
-public class Order_Product
+public class OrderProduct
 {
     public int Id { get; set; }
     public decimal Unit_Price { get; set; }
