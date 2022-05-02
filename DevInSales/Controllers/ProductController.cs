@@ -20,6 +20,44 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
+        /// Consulta a lista de Produtos
+        /// </summary>
+        /// <param name="name">Filtra o produto por nome</param>
+        /// <param name="price_min">Delimita um preço mínimo na consulta do produto</param>
+        /// <param name="price_max">Delimita um preço máximo na consulta do produto</param>
+        [HttpGet(Name = "GetProduct")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProduct(string? name, decimal? price_min, decimal? price_max)
+        {
+            if (price_max < price_min)
+                return BadRequest("O Preço Máximo não pode ser menor que o Preço Mínimo.");
+
+            var productQuery = _sqlContext.Product as IQueryable<Product>;
+            if (!string.IsNullOrWhiteSpace(name))
+                productQuery = productQuery.Where(p => p.Name.Contains(name));
+
+            if (price_min.HasValue)
+                productQuery = productQuery.Where(p => p.Suggested_Price >= price_min.Value);
+
+            if (price_max.HasValue)
+                productQuery = productQuery.Where(p => p.Suggested_Price <= price_max.Value);
+
+            List<Product> productResult = productQuery
+              .Include(x => x.Category)
+              .ToList();
+
+            var retorno = new List<ProductGetDTO>();
+            foreach (var product_unit in productResult)
+            {
+                retorno.Add((ProductGetDTO)product_unit);
+            }
+
+            return (retorno?.Any() ?? false) ? Ok(retorno) : NoContent();
+        }
+
+        /// <summary>
         /// Cadastra um novo Produto
         /// </summary>
         /// <param name="requisicao">Representa as informações do novo Produto.</param>
@@ -33,7 +71,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Product>> Create([FromBody] ProductPostAndPutDTO requisicao)
+        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductPostAndPutDTO requisicao)
         {
             bool isProductExistente = _sqlContext.Product.Any(product => product.Name == requisicao.Name);
             

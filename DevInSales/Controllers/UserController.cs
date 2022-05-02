@@ -67,7 +67,7 @@ namespace DevInSales.Controllers
             var configuration = new MapperConfiguration(cfg => cfg.CreateMap<User, UserResponseDTO>());
             var mapper = configuration.CreateMapper();
 
-            return Ok(mapper.Map<List<UserResponseDTO>>(usuarios)); ;
+            return Ok(mapper.Map<List<UserResponseDTO>>(usuarios));
         }
 
         /// <summary>
