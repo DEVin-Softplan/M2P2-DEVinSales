@@ -16,6 +16,28 @@ namespace DevInSales.Controllers
             _context = context; 
         }
 
+        [HttpGet("user/{user_id}/order")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
+        public async Task<ActionResult<ICollection<Order>>> GetUserId(int user_id)
+        {
+            try
+            {
+                List<Order> listaUsuarios = _context.Order
+                .Include(x => x.User)
+                .ToList()
+                .FindAll(x => x.User.Id == user_id);
+
+                return listaUsuarios;
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
