@@ -25,12 +25,12 @@ namespace DevInSales.Controllers
         {
             try
             {
-                List<Order> listaUsuarios = _context.Order
+                List<Order> listaVendas = _context.Order
                 .Include(x => x.User)
                 .ToList()
                 .FindAll(x => x.User.Id == user_id);
 
-                return listaUsuarios;
+                return listaVendas;
             }
             catch
             {
