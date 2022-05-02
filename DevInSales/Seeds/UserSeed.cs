@@ -25,7 +25,7 @@ namespace DevInSales.Seeds
             Id = 3,
             Name = "Henrique Luiz Lemos",
             BirthDate = new DateTime(1986, 3, 14),
-            Email = "Henrique Luiz Lemos",
+            Email = "lemosluiz@gmail.com",
             Password = "lemos$2022",
             ProfileId = 1
         }, new User()
