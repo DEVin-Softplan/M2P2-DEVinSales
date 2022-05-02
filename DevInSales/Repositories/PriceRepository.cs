@@ -4,9 +4,9 @@ using DevInSales.Models;
 
 namespace DevInSales.Repositories
 {
-    public class StateRepository : Repository<StateModel>, IStateRepository
+    public class PriceRepository : Repository<StateModel>, IStateRepository
     {
-        public StateRepository(SqlContext context) : base(context)
+        public PriceRepository(SqlContext context) : base(context)
         {
         }
     }

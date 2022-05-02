@@ -8,4 +8,6 @@ public class StatePrice : EntityBase
 
     public virtual StateModel State { get; set; }
     public virtual ShippingCompany ShippingCompany { get; set; }
+
+
 }

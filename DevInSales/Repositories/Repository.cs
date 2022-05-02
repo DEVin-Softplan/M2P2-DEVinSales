@@ -20,6 +20,13 @@ namespace DevInSales.Repositories
         public virtual void Registrar(TEntity entity)
         {
             DbSet.Add(entity);
+            DbSet.AddRange(entity);
+        }
+
+        public virtual void RegistrarLista(IList<TEntity> entitys)
+        {
+            
+            DbSet.AddRange(entitys);
         }
 
         public virtual void Atualizar(TEntity entity, string[] noUpdate = null)

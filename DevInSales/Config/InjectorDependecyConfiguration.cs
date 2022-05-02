@@ -12,6 +12,7 @@ namespace DevInSales.Config
 
             services.AddScoped<IShippingCompanyRepository, ShippingCompanyRepository>();
             services.AddScoped<IStatePriceRepository, StatePriceRepository>();
+            services.AddScoped<IStateRepository, StateRepository>();
             services.AddScoped<SqlContext>();
         }
     }
