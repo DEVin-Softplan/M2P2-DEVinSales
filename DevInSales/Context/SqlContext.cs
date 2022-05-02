@@ -16,7 +16,7 @@ public class SqlContext : DbContext
     public DbSet<State> State { get; set; }
     public DbSet<Address> Address { get; set; }
     
-    public DbSet<Order_Product> Order_Product { get; set; }
+    public DbSet<OrderProduct> Order_Product { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<Delivery> Delivery { get; set; }
 
@@ -48,7 +48,7 @@ public class SqlContext : DbContext
 
         modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
          
-        var order_product = modelBuilder.Entity<Order_Product>();
+        var order_product = modelBuilder.Entity<OrderProduct>();
         order_product.HasKey(x => x.Id);
         order_product.Property(x => x.Unit_Price).HasColumnName("unit_price").HasColumnType("decimal").IsRequired();
         order_product.Property(x => x.Amount).HasColumnName("amount").HasColumnType("int").IsRequired();
