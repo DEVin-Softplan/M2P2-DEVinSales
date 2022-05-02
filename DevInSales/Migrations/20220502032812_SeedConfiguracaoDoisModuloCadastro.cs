@@ -33,7 +33,7 @@ namespace DevInSales.Migrations
                 {
                     { 1, new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "romeu@lenda.com", "Romeu A Lenda", "romeu123@", 1 },
                     { 2, new DateTime(1974, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "gustavo_levi_ferreira@gmail.com", "Gustavo Levi Ferreira", "!romeu321", 1 },
-                    { 3, new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "Henrique Luiz Lemos", "Henrique Luiz Lemos", "lemos$2022", 1 },
+                    { 3, new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "lemosluiz@gmail.com", "Henrique Luiz Lemos", "lemos$2022", 1 },
                     { 4, new DateTime(1996, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "tomas.paulo.aragao@hotmail.com", "Tomás Paulo Aragão", "$tpa1996", 1 }
                 });
         }

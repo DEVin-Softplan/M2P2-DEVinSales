@@ -33944,7 +33944,7 @@ namespace DevInSales.Migrations
                         {
                             Id = 3,
                             BirthDate = new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Henrique Luiz Lemos",
+                            Email = "lemosluiz@gmail.com",
                             Name = "Henrique Luiz Lemos",
                             Password = "lemos$2022",
                             ProfileId = 1

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220502032153_SeedConfiguracaoDoisModuloCadastro")]
+    [Migration("20220502032812_SeedConfiguracaoDoisModuloCadastro")]
     partial class SeedConfiguracaoDoisModuloCadastro
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33946,7 +33946,7 @@ namespace DevInSales.Migrations
                         {
                             Id = 3,
                             BirthDate = new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "Henrique Luiz Lemos",
+                            Email = "lemosluiz@gmail.com",
                             Name = "Henrique Luiz Lemos",
                             Password = "lemos$2022",
                             ProfileId = 1
