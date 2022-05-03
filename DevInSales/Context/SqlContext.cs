@@ -19,6 +19,9 @@ public class SqlContext : DbContext
     public DbSet<OrderProduct> Order_Product { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<Delivery> Delivery { get; set; }
+    public DbSet<CityPrice> CityPrice { get; set; }
+    public DbSet<StatePrice> StatePrice { get; set; }
+    public DbSet<ShippingCompany> ShippingCompany { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
