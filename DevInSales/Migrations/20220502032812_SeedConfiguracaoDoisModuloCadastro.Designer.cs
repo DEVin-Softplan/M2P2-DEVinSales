@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220429024248_Seeds-City-State")]
-    partial class SeedsCityState
+    [Migration("20220502032812_SeedConfiguracaoDoisModuloCadastro")]
+    partial class SeedConfiguracaoDoisModuloCadastro
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,6 +55,35 @@ namespace DevInSales.Migrations
                     b.HasIndex("City_Id");
 
                     b.ToTable("Address");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CEP = "999999-99",
+                            City_Id = 11,
+                            Complement = "casa",
+                            Number = 22,
+                            Street = "Rua Lateral"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CEP = "999999-99",
+                            City_Id = 12,
+                            Complement = "apto",
+                            Number = 45,
+                            Street = "Rua Frente"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CEP = "999999-99",
+                            City_Id = 13,
+                            Complement = "casa",
+                            Number = 123,
+                            Street = "Rua Lateral"
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.Category", b =>
@@ -79,6 +108,14 @@ namespace DevInSales.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Categoria Padrão",
+                            Slug = "categoria-padrao"
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.City", b =>
@@ -33555,7 +33592,8 @@ namespace DevInSales.Migrations
                         .HasColumnName("name");
 
                     b.Property<decimal>("Suggested_Price")
-                        .HasColumnType("decimal")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("suggested_price");
 
                     b.HasKey("Id");
@@ -33563,6 +33601,78 @@ namespace DevInSales.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "Curso de C Sharp",
+                            Suggested_Price = 259.99m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "Curso de Java",
+                            Suggested_Price = 249.99m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Name = "Curso de Delphi",
+                            Suggested_Price = 189.99m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Name = "Curso de React",
+                            Suggested_Price = 289.99m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Name = "Curso de HTML5 e CSS3",
+                            Suggested_Price = 139.99m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            Name = "Curso de JavaScript",
+                            Suggested_Price = 219.99m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 1,
+                            Name = "Curso de Angular",
+                            Suggested_Price = 199.99m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 1,
+                            Name = "Curso de Ruby",
+                            Suggested_Price = 319.99m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 1,
+                            Name = "Curso de Kotlin",
+                            Suggested_Price = 289.99m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 1,
+                            Name = "Curso de Python",
+                            Suggested_Price = 229.99m
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.Profile", b =>
@@ -33582,6 +33692,13 @@ namespace DevInSales.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Profile");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Cliente"
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.State", b =>
@@ -33805,6 +33922,44 @@ namespace DevInSales.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BirthDate = new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "romeu@lenda.com",
+                            Name = "Romeu A Lenda",
+                            Password = "romeu123@",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = new DateTime(1974, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "gustavo_levi_ferreira@gmail.com",
+                            Name = "Gustavo Levi Ferreira",
+                            Password = "!romeu321",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BirthDate = new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "lemosluiz@gmail.com",
+                            Name = "Henrique Luiz Lemos",
+                            Password = "lemos$2022",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BirthDate = new DateTime(1996, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "tomas.paulo.aragao@hotmail.com",
+                            Name = "Tomás Paulo Aragão",
+                            Password = "$tpa1996",
+                            ProfileId = 1
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.Address", b =>

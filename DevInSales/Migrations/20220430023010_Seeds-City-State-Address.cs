@@ -4,7 +4,7 @@
 
 namespace DevInSales.Migrations
 {
-    public partial class SeedsCityState : Migration
+    public partial class SeedsCityStateAddress : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -6544,10 +6544,40 @@ namespace DevInSales.Migrations
                     { 5571, "VILA PROPÍCIO", 52 },
                     { 5572, "BRASÍLIA", 53 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Address",
+                columns: new[] { "Id", "CEP", "City_Id", "Complement", "Number", "Street" },
+                values: new object[] { 1, "999999-99", 11, "casa", 22, "Rua Lateral" });
+
+            migrationBuilder.InsertData(
+                table: "Address",
+                columns: new[] { "Id", "CEP", "City_Id", "Complement", "Number", "Street" },
+                values: new object[] { 2, "999999-99", 12, "apto", 45, "Rua Frente" });
+
+            migrationBuilder.InsertData(
+                table: "Address",
+                columns: new[] { "Id", "CEP", "City_Id", "Complement", "Number", "Street" },
+                values: new object[] { 3, "999999-99", 13, "casa", 123, "Rua Lateral" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DeleteData(
+                table: "Address",
+                keyColumn: "Id",
+                keyValue: 1);
+
+            migrationBuilder.DeleteData(
+                table: "Address",
+                keyColumn: "Id",
+                keyValue: 2);
+
+            migrationBuilder.DeleteData(
+                table: "Address",
+                keyColumn: "Id",
+                keyValue: 3);
+
             migrationBuilder.DeleteData(
                 table: "City",
                 keyColumn: "Id",
@@ -6597,21 +6627,6 @@ namespace DevInSales.Migrations
                 table: "City",
                 keyColumn: "Id",
                 keyValue: 10);
-
-            migrationBuilder.DeleteData(
-                table: "City",
-                keyColumn: "Id",
-                keyValue: 11);
-
-            migrationBuilder.DeleteData(
-                table: "City",
-                keyColumn: "Id",
-                keyValue: 12);
-
-            migrationBuilder.DeleteData(
-                table: "City",
-                keyColumn: "Id",
-                keyValue: 13);
 
             migrationBuilder.DeleteData(
                 table: "City",
@@ -34409,9 +34424,19 @@ namespace DevInSales.Migrations
                 keyValue: 5572);
 
             migrationBuilder.DeleteData(
-                table: "State",
+                table: "City",
                 keyColumn: "Id",
                 keyValue: 11);
+
+            migrationBuilder.DeleteData(
+                table: "City",
+                keyColumn: "Id",
+                keyValue: 12);
+
+            migrationBuilder.DeleteData(
+                table: "City",
+                keyColumn: "Id",
+                keyValue: 13);
 
             migrationBuilder.DeleteData(
                 table: "State",
@@ -34542,6 +34567,11 @@ namespace DevInSales.Migrations
                 table: "State",
                 keyColumn: "Id",
                 keyValue: 53);
+
+            migrationBuilder.DeleteData(
+                table: "State",
+                keyColumn: "Id",
+                keyValue: 11);
         }
     }
 }
