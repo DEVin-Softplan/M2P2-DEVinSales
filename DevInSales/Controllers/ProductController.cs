@@ -94,12 +94,6 @@ namespace DevInSales.Controllers
 
             return CreatedAtAction("Create", new { id = newProduct.Id }, newProduct);
         }
-    }
-}
-        {
-    
-
-        
 
         /// <summary>
         ///atualiza o nome e preço do produto
@@ -116,24 +110,23 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPatch("{id}")]
-            public async Task<IActionResult> PatchProduct(JsonPatchDocument productModel, int id)
-            {
-
+        public async Task<IActionResult> PatchProduct(JsonPatchDocument productModel, int id)
+        {
             var product = await _sqlContext.Product.FindAsync(id);
 
-            if(product == null)
+            if (product == null)
             {
                 return StatusCode(404);
             }
- 
-            if(product != null)
+
+            if (product != null)
             {
                 productModel.ApplyTo(product);
                 if (string.IsNullOrWhiteSpace(product.Name))
                 {
                     return StatusCode(404);
                 }
-                if(product.Suggested_Price <= 0)
+                if (product.Suggested_Price <= 0)
                 {
                     return StatusCode(404);
                 }
@@ -142,5 +135,5 @@ namespace DevInSales.Controllers
             }
             return StatusCode(200);
         }
-        }
-    } 
+    }
+}
