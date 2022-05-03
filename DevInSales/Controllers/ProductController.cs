@@ -96,6 +96,64 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
+        /// Atualiza um Produto
+        /// </summary>
+        /// <param name="id">Representa o Id do Produto.</param>
+        /// <param name="requisicao">Representa as informações que serão atualizadas do Produto.</param>
+        /// <response code="204">Atualização realizada com sucesso.</response>
+        /// <response code="400">Já existe um outro produto com o nome a ser modificado, ou Preço sugerido menor ou igual à 0, ou o Nome e Preço não foram inserios.</response>
+        /// <response code="404">Id do Produto não foi encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante a atualização.</response>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Product>> PutProduct(int id, ProductPostAndPutDTO requisicao)
+        {
+            bool productIdExists = _sqlContext.Product.Any(product => product.Id == id);
+            bool productNameExists = _sqlContext.Product.Any(product => product.Name == requisicao.Name);
+
+            if (!productIdExists)
+                return NotFound("O produto não existe.");
+
+            if (productNameExists)
+                return BadRequest("Já existeu um produto com este nome.");
+
+            if (requisicao.Suggested_Price <= 0)
+                return BadRequest("O preço sugerido não pode ser menor ou igual a 0.");
+
+            if (requisicao.Name == null || requisicao.Suggested_Price == null)
+                return BadRequest("Nome ou Preço Sugerido são Nulos.");
+
+            var newProduct = ProductPostAndPutDTO.ConverterParaEntidade(requisicao, id);
+            _sqlContext.Entry(newProduct).State = EntityState.Modified;
+
+            try
+            {
+                await _sqlContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductIdExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        private bool ProductIdExists(int id)
+        {
+            return _sqlContext.Product.Any(e => e.Id == id);
+        }
+
+        /// <summary>
         ///atualiza o nome e preço do produto
         /// </summary>
         /// <param name="productModel"></param>
