@@ -38,6 +38,25 @@ namespace DevInSales.Controllers
             retorno.Add(temp);
             return Ok(retorno);
         }
+        //GET /state/{state_id}/
+        [HttpGet("/state/{state_id}")]
+        public async Task<ActionResult<IEnumerable<State>>> GetStateId(int state_id)
+        {
+            try
+            {
+                var result = await _context.State.FindAsync(state_id);
+                if (result == null)
+                {
+                    return NotFound(new { message = "State_Id não encontrado" });
+                }
+                return Ok(new { message = "State_Id encontrado com sucesso", resultado = result });
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"mensagem, {ex.Message}", ex.InnerException);
+            }
+        }
 
         // GET: api/State/5
         [HttpGet("{id}")]
