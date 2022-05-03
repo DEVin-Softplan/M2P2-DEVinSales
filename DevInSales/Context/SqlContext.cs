@@ -21,7 +21,7 @@ public class SqlContext : DbContext
         product.HasKey(x => x.Id);
         product.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
         product.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
-        product.Property(x => x.Suggested_Price).HasColumnName("suggested_price").HasColumnType("decimal").IsRequired();
+        product.Property(x => x.Suggested_Price).HasColumnName("suggested_price").HasColumnType("decimal").HasPrecision(18, 2).IsRequired();
 
         var category = modelBuilder.Entity<Category>();
         category.HasKey(x => x.Id);
@@ -38,6 +38,10 @@ public class SqlContext : DbContext
         modelBuilder.Entity<Category>().HasData(CategorySeed.Seed);
 
         modelBuilder.Entity<Profile>().HasData(ProfileSeed.Seed);
+
+        modelBuilder.Entity<User>().HasData(UserSeed.Seed);
+
+        modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
     }
 
 }
