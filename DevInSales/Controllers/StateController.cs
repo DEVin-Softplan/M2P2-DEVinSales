@@ -72,11 +72,61 @@ namespace DevInSales.Controllers
             return state;
         }
 
+        [HttpGet("{State_Id}/city")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<ActionResult<List<CityStateDTO>>> GetByStateIdCity(int State_Id, string name)
+        {
+            var state = await _context.State.FindAsync(State_Id);
+
+            if (state == null)
+                return NotFound();
+
+            var cityList = await _context.City.Include(x => x.State).Where(c => c.State_Id == State_Id).ToListAsync();
+            var cityUnity = await _context.City.Include(x => x.State).Where(c => c.State_Id == State_Id).FirstOrDefaultAsync(x => x.Name.Contains(name));
+
+            var listDTO = new List<CityStateDTO>();
+            if (name == null)
+            {
+                foreach (var c in cityList)
+                {
+                    listDTO.Add(new CityStateDTO
+                    {
+                        State_Id = State_Id,
+                        City_Id = c.Id,
+                        Name_City = c.Name,
+                        Initials = c.State.Initials,
+                        Name_State = c.State.Name
+                    });
+                }
+            }
+            else
+            {
+                if (cityUnity != null)
+                {
+                    listDTO.Add(new CityStateDTO
+                    {
+                        City_Id = cityUnity.Id,
+                        Name_City = cityUnity.Name,
+                        Initials = cityUnity.State.Initials,
+                        Name_State = cityUnity.State.Name,
+                        State_Id = cityUnity.State.Id,
+                    });
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+
+            return Ok(listDTO);
+        }
+
+
         [HttpGet("{State_Id}/city/{City_Id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CityStateDTO>> GetByIdStateCity(int State_Id, int City_Id)
+        public async Task<ActionResult<CityStateDTO>> GetByStateIdCityId(int State_Id, int City_Id)
         {
-            //return _sqlContext.Clientes.Include(x => x.Endereco).Select(x => (ClienteDTO)x).ToList();
             var state_find = await _context.State.FindAsync(State_Id);
             var city_find = await _context.City.FindAsync(City_Id);
 
@@ -94,7 +144,7 @@ namespace DevInSales.Controllers
                 Name_State = state_find.Name,
                 Initials = state_find.Initials
             };
-                
+
             return Ok(statecity_include);
         }
 
