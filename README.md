@@ -44,16 +44,17 @@ O projeto trata-se de uma API desenvolvida em .NET Core 6 com Entity Framework, 
 ## ⚙️ Funcionalidades
 
 Empresas poderão fazer cadastro de vendas de produtos, preço e endereço:
-  -  User
-  -  Profile
-  -  Product
-  -  Category 
-  -  Address 
-  -  Order
-  -  Delivery
-  -  State
-  -  City
-  -  Shipping Company
+
+- User
+- Profile
+- Product
+- Category
+- Address
+- Order
+- Delivery
+- State
+- City
+- Shipping Company
 
 <br>
 
@@ -64,7 +65,7 @@ Este projeto é uma aplicação web em Backend.
 ### Pré-requisitos
 
 Para rodar o projeto em sua máquina, você vai precisar ter instalado as seguintes ferramentas:
-[Git](https://git-scm.com) e [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0). 
+[Git](https://git-scm.com) e [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
 Além disto é importante ter um editor para trabalhar com o código, como [VisualStudio](https://visualstudio.microsoft.com/) e um sistema gerenciador de Banco de dados relacional, como o [SQLServer](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads).
 
 #### 🎲 Rodando a Aplicação
@@ -86,8 +87,8 @@ $ git clone https://github.com/DEVin-Softplan/M2P2-DEVinSales.git
   "ServerConnection": "Server=YOURSERVER\\SQLEXPRESS;Database=DEVinSales;Trusted_Connection=True;"
   }
 ```
-</li>
 
+</li>
 
 <li>Instale as seguintes dependências, via NuGet:</li>
 <ul>
@@ -116,6 +117,7 @@ Update-Database
 ## 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
+
 <div style="display: inline_block" align="center">
 
 <img align="center" alt="C#" height="80" width="100" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg">
@@ -216,8 +218,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
          <br/>
       </td>
       <td align="center">
-         <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Kazyg" width="100px;" alt="avatar Bruno"/><br />
-         <sub><b>Bruno Machado</b></sub>
+         <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Kazyg" width="100px;" alt="avatar Guilherme Severo"/><br />
+         <sub><b>Guilherme Severo</b></sub>
          <br/>
       </td>
       <td align="center">
@@ -296,6 +298,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 <br>
 
- ## 📝 Licença
+## 📝 Licença
 
 Este projeto esta sobe a licença [MIT](./LICENSE).
