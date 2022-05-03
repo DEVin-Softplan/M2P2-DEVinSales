@@ -87,18 +87,40 @@ namespace DevInSales.Controllers
 
         // DELETE: api/Addresse/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete(int id)
         {
-            var address = await _context.Address.FindAsync(id);
-            if (address == null)
+            try
             {
-                return NotFound();
+             
+                var address = await _context.Address.FirstOrDefaultAsync(e => e.Id == id); 
+
+
+                var delivery = await _context.Delivery.
+                    Include(x => x.Address)
+                    .FirstOrDefaultAsync(e=> e.Id ==id);
+
+
+                if (address == null)
+                {
+                    return NotFound();
+                }
+                if (delivery != null)
+                {
+                    return BadRequest();
+                }
+                _context.Address.Remove(address);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Address.Remove(address);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         private bool AddressExists(int id)
