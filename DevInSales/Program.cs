@@ -22,6 +22,7 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddDbContext<SqlContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("ServerConnection")));
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(); 
 
 var app = builder.Build();
 
