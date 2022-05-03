@@ -28,6 +28,10 @@ namespace DevInSales.Controllers
         /// <param name="name">Filtra o produto por nome</param>
         /// <param name="price_min">Delimita um preço mínimo na consulta do produto</param>
         /// <param name="price_max">Delimita um preço máximo na consulta do produto</param>
+        /// <returns>Retorna lista de produtos consultados.</returns>
+        /// <response code="200">Retorno da lista de produto(s) consultado(s).</response>
+        /// <response code="204">Sem nenhum retorno.</response>
+        /// <response code="400">Erro ao fazer a Request.</response>
         [HttpGet(Name = "GetProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -35,7 +39,7 @@ namespace DevInSales.Controllers
         public async Task<ActionResult<IEnumerable<ProductGetDTO>>> GetProduct(string? name, decimal? price_min, decimal? price_max)
         {
             if (price_max < price_min)
-                return BadRequest("O Preço Máximo não pode ser menor que o Preço Mínimo.");
+                return BadRequest($"O Preço Máximo ({price_max}) não pode ser menor que o Preço Mínimo ({price_min}).");
 
             var productQuery = _sqlContext.Product as IQueryable<Product>;
             if (!string.IsNullOrWhiteSpace(name))

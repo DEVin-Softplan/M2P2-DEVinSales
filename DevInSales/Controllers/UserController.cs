@@ -110,6 +110,26 @@ namespace DevInSales.Controllers
             return CreatedAtAction("Create", new { id = novoUsuario.Id });
         }
 
+        /// <summary>
+        /// Deleta um usuário conforme o Id Informado.
+        /// </summary>
+        /// <param name="user_id">O Id do usuário para ser deletado.</param>
+        /// <returns>Deleta o usuário conforme o Id informado.</returns>
+        /// <response code="200">Usuário deletado.</response>
+        /// <response code="404">Usuário não encontrado.</response>
+        [HttpDelete("{user_id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteUser([FromRoute] int user_id)
+        {
+            var userIdEncontrado = await _context.User.FindAsync(user_id);
+            if (userIdEncontrado == null)
+                return NotFound($"O Id de Usuário de número {user_id} não foi encontrado.");
+            _context.User.Remove(userIdEncontrado);
+            _context.SaveChanges();
+            return Ok(user_id);
+        }
+
         private bool isDataNascimentoValida(string data)
         {
             DateTime dataNascimento = DateTime.ParseExact(data, "dd/MM/yyyy", new CultureInfo("pt-BR"));
