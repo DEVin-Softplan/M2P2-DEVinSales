@@ -48,45 +48,35 @@ namespace DevInSales.Controllers
             return address;
         }
 
+        
         [HttpGet("address")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        //public async Task<ActionResult<IEnumerable<AddressDTO>>> GetAddress(string CEP, string Street, CityStateDTO CityStateDTO)
-        //{
-
-        //    List<Address> retorno = new List<Address>();
-        //    if (Street == null)
-        //        return Ok(await _context.Address.ToListAsync());
-
-        //    var temporario = await _context.Address.FirstOrDefaultAsync(x => x.Street.Contains(Street));
-
-        //    if (temporario == null)
-        //        return NoContent();
-        //    retorno.Add(temporario);
-        //    return Ok(retorno);
-        //}
-
-        public async Task<ActionResult<AddressDTO>> GetAddress(string CEP, string Street, CityStateDTO CityStateDTO)
+        public async Task<ActionResult<AddressDTO>> GetAddress(string CEP, string Street, int City_Id, int State_Id)
         {
-            //return _sqlContext.Clientes.Include(x => x.Endereco).Select(x => (ClienteDTO)x).ToList();
-            var street_find = await _context.Address.FindAsync(Street);
-            var cep_find = await _context.Address.FindAsync(CEP);
-
-            if (street_find == null && cep_find == null)
+            if (Street == null && CEP == null && City_Id == null && State_Id == null)
             {
-                return NoContent();
-               
-                List<AddressDTO> addresses = new List<AddressDTO>();
-                addresses.Add(new AddressDTO());
-
-
+                return Ok(_context.Address.ToListAsync());
             }
-            else
-            {
-                return new AddressDTO();
-            }
+            var street_find = await _context.Address.Include(x => x.City.State).FirstOrDefaultAsync(x => x.Street.Contains(Street));
+            var cep_find = await _context.Address.Include(x => x.City.State).FirstOrDefaultAsync(x => x.CEP == CEP);
+            var city_find = await _context.Address.Include(x => x.City.State).FirstOrDefaultAsync(x => x.City_Id == City_Id);
+            var state_find = await _context.Address.Include(x => x.City.State).FirstOrDefaultAsync(x => x.Id == State_Id);
+
+            if (street_find != null)
+                return Ok(street_find);
+            if (cep_find != null)
+                return Ok(cep_find);
+            if (city_find != null)
+                return Ok(city_find);
+            if (state_find != null)
+                return Ok(state_find);
+
+            return NoContent();
 
         }
+
+
 
 
         // PUT: api/Addresse/5
