@@ -4,6 +4,7 @@ using DevInSales.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    partial class SqlContextModelSnapshot : ModelSnapshot
+    [Migration("20220504202238_card 7")]
+    partial class card7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("City_Id");
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Address");
 
                     b.HasData(
                         new
@@ -105,7 +107,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
 
                     b.HasData(
                         new
@@ -135,7 +137,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("State_Id");
 
-                    b.ToTable("City", (string)null);
+                    b.ToTable("City");
 
                     b.HasData(
                         new
@@ -33597,7 +33599,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("ShippingCompanyId");
 
-                    b.ToTable("CityPrice", (string)null);
+                    b.ToTable("CityPrice");
                 });
 
             modelBuilder.Entity("DevInSales.Models.Delivery", b =>
@@ -33633,7 +33635,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Delivery", (string)null);
+                    b.ToTable("Delivery");
                 });
 
             modelBuilder.Entity("DevInSales.Models.Order", b =>
@@ -33670,7 +33672,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("DevInSales.Models.OrderProduct", b =>
@@ -33691,7 +33693,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Order_Product", (string)null);
+                    b.ToTable("Order_Product");
                 });
 
             modelBuilder.Entity("DevInSales.Models.Product", b =>
@@ -33725,7 +33727,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("OrderProductId");
 
-                    b.ToTable("Product", (string)null);
+                    b.ToTable("Product");
 
                     b.HasData(
                         new
@@ -33816,7 +33818,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profile", (string)null);
+                    b.ToTable("Profile");
 
                     b.HasData(
                         new
@@ -33840,7 +33842,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingCompany", (string)null);
+                    b.ToTable("ShippingCompany");
                 });
 
             modelBuilder.Entity("DevInSales.Models.State", b =>
@@ -33861,7 +33863,7 @@ namespace DevInSales.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("State", (string)null);
+                    b.ToTable("State");
 
                     b.HasData(
                         new
@@ -34051,7 +34053,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("StatePrice", (string)null);
+                    b.ToTable("StatePrice");
                 });
 
             modelBuilder.Entity("DevInSales.Models.User", b =>
@@ -34089,7 +34091,7 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("ProfileId");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
 
                     b.HasData(
                         new
