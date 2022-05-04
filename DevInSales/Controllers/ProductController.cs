@@ -193,5 +193,27 @@ namespace DevInSales.Controllers
             }
             return StatusCode(200);
         }
+
+        /// <summary>
+        /// Deleta um produto conforme o Id Informado.
+        /// </summary>
+        /// <param name="product_id">O Id do produto para ser deletado.</param>
+        /// <returns>Deleta o produto conforme o Id informado.</returns>
+        /// <response code="200">Produto deletado.</response>
+        /// <response code="400">Produto deletado.</response>
+        /// <response code="404">Produto não encontrado.</response>
+        [HttpDelete("{product_id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int product_id)
+        {
+            var productIdEncontrado = await _sqlContext.Product.FindAsync(product_id);
+            if (productIdEncontrado == null)
+                return NotFound($"O Id de Produto de número {product_id} não foi encontrado.");
+            _sqlContext.Product.Remove(productIdEncontrado);
+            _sqlContext.SaveChanges();
+            return Ok(product_id);
+        }
     }
 }
