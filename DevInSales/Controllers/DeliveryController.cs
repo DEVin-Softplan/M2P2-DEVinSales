@@ -10,6 +10,7 @@ namespace DevInSales.Controllers
     [ApiController]
     public class DeliveryController : ControllerBase
     {
+        
         private readonly SqlContext _context;
 
         public DeliveryController(SqlContext context)
@@ -17,7 +18,15 @@ namespace DevInSales.Controllers
             _context = context;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="address_id"></param>
+        /// <param name="order_id"></param>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        /// <response code="204"></response>
+        /// <response code="500"></response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
