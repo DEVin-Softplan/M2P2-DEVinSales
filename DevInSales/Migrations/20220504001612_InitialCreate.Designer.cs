@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220502032812_SeedConfiguracaoDoisModuloCadastro")]
-    partial class SeedConfiguracaoDoisModuloCadastro
+    [Migration("20220504001612_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33574,6 +33574,100 @@ namespace DevInSales.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DevInSales.Models.Delivery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Delivery_Date")
+                        .HasColumnType("date")
+                        .HasColumnName("delivery_Date");
+
+                    b.Property<DateTime>("Delivery_Forecast")
+                        .HasColumnType("date")
+                        .HasColumnName("delivery_Forecast");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Delivery");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date_Order")
+                        .HasColumnType("date")
+                        .HasColumnName("date_order");
+
+                    b.Property<int?>("OrderProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Shipping_Company_Price")
+                        .HasColumnType("decimal")
+                        .HasColumnName("shipping_company_price");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderProductId");
+
+                    b.HasIndex("SellerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int")
+                        .HasColumnName("amount");
+
+                    b.Property<decimal>("Unit_Price")
+                        .HasColumnType("decimal")
+                        .HasColumnName("unit_price");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order_Product");
+                });
+
             modelBuilder.Entity("DevInSales.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -33591,6 +33685,9 @@ namespace DevInSales.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("name");
 
+                    b.Property<int?>("OrderProductId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Suggested_Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
@@ -33599,6 +33696,8 @@ namespace DevInSales.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrderProductId");
 
                     b.ToTable("Product");
 
@@ -33984,6 +34083,48 @@ namespace DevInSales.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("DevInSales.Models.Delivery", b =>
+                {
+                    b.HasOne("DevInSales.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DevInSales.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Order", b =>
+                {
+                    b.HasOne("DevInSales.Models.OrderProduct", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderProductId");
+
+                    b.HasOne("DevInSales.Models.User", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DevInSales.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Seller");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DevInSales.Models.Product", b =>
                 {
                     b.HasOne("DevInSales.Models.Category", "Category")
@@ -33991,6 +34132,10 @@ namespace DevInSales.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DevInSales.Models.OrderProduct", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderProductId");
 
                     b.Navigation("Category");
                 });
@@ -34009,6 +34154,13 @@ namespace DevInSales.Migrations
             modelBuilder.Entity("DevInSales.Models.Category", b =>
                 {
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.OrderProduct", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
