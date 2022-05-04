@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DevInSales.Context;
 using DevInSales.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using DevInSales.DTOs;
+
 
 namespace DevInSales.Controllers
 {
@@ -123,23 +125,85 @@ namespace DevInSales.Controllers
 
         // DELETE: api/Addresse/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete(int id)
         {
-            var address = await _context.Address.FindAsync(id);
-            if (address == null)
+            try
             {
-                return NotFound();
+             
+                var address = await _context.Address.FirstOrDefaultAsync(e => e.Id == id); 
+
+
+                var delivery = await _context.Delivery.
+                    Include(x => x.Address)
+                    .FirstOrDefaultAsync(e=> e.Id ==id);
+
+
+                if (address == null)
+                {
+                    return NotFound();
+                }
+                if (delivery != null)
+                {
+                    return BadRequest();
+                }
+                _context.Address.Remove(address);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Address.Remove(address);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         private bool AddressExists(int id)
         {
             return _context.Address.Any(e => e.Id == id);
         }
+
+
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(int id, [FromBody] JsonPatchDocument<Address> patchAddress)
+        {
+            try
+            {
+                if (patchAddress == null)
+                {
+                    return BadRequest();
+                }
+                var addressDB = await _context.Address.FirstOrDefaultAsync(cat => cat.Id == id);
+                if (addressDB == null)
+                {
+                    return NotFound();
+                }
+                patchAddress.ApplyTo(addressDB, (Microsoft.AspNetCore.JsonPatch.Adapters.IObjectAdapter)ModelState);
+                var isValid = TryValidateModel(addressDB);
+                if (!isValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+
+
+
+
+
     }
 }
