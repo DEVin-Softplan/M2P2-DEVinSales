@@ -232,6 +232,11 @@ As seguintes ferramentas foram usadas na construção do projeto:
          <sub><b>Ramon Telles</b></sub>
          <br/>
       </td>
+	<td align="center">
+         <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/brunorm86" width="100px;" alt="avatar Bruno"/><br />
+         <sub><b>Bruno Machado</b></sub>
+         <br/>
+      </td>
    </tr>
 </table>
 
