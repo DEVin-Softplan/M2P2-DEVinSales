@@ -3,6 +3,7 @@ using DevInSales.DTOs;
 using DevInSales.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevInSales.Controllers
 {
@@ -15,6 +16,17 @@ namespace DevInSales.Controllers
         public FreightController(SqlContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        [Route("company/{id:int}")]
+        public async Task<ActionResult<ShippingCompany>> GetCompanyById(int id)
+        {
+            var company = await _context.ShippingCompany.FindAsync(id);
+            if (company == null)
+                return NotFound();
+
+            return Ok(company);
         }
 
         [HttpPost]
