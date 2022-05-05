@@ -124,5 +124,34 @@ namespace DevInSales.Controllers
                 return StatusCode(500);
             }
         }
+        [HttpGet("order/{order_id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Order>> GetOrderId(int order_id)
+        {
+            try
+            {
+                List<Order> listaVendas = _context.Order
+                    .Include(x => x.User)
+                    .Include(x => x.Seller)
+                    .Include(x => x.Date_Order)
+                    .ToList()
+                    .FindAll(x => x.Id == order_id);
+
+                if (order_id == null) return StatusCode(404);
+
+
+                return Ok(listaVendas);
+
+            }
+            catch
+            {
+                throw;
+
+            }
+        }
+
     }
+
 }
