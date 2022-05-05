@@ -147,7 +147,7 @@ namespace DevInSales.Controllers
             }
             catch
             {
-                return StatusCode(404);
+                throw;
 
             }
         }
