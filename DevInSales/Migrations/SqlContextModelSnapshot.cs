@@ -34134,6 +34134,71 @@ namespace DevInSales.Migrations
                     b.HasIndex("StateId");
 
                     b.ToTable("StatePrice");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BasePrice = 17m,
+                            ShippingCompanyId = 1,
+                            StateId = 11
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BasePrice = 20m,
+                            ShippingCompanyId = 1,
+                            StateId = 22
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BasePrice = 30m,
+                            ShippingCompanyId = 1,
+                            StateId = 33
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BasePrice = 19m,
+                            ShippingCompanyId = 2,
+                            StateId = 11
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BasePrice = 29m,
+                            ShippingCompanyId = 2,
+                            StateId = 22
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BasePrice = 37m,
+                            ShippingCompanyId = 2,
+                            StateId = 33
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BasePrice = 10m,
+                            ShippingCompanyId = 3,
+                            StateId = 11
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BasePrice = 35m,
+                            ShippingCompanyId = 3,
+                            StateId = 22
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BasePrice = 33m,
+                            ShippingCompanyId = 3,
+                            StateId = 33
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.User", b =>
