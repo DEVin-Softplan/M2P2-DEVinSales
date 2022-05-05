@@ -50,7 +50,15 @@ public class SqlContext : DbContext
         modelBuilder.Entity<User>().HasData(UserSeed.Seed);
 
         modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
-         
+        
+        // Douglas
+        modelBuilder.Entity<ShippingCompany>().HasData(ShippingCompanySeed.Seed);
+
+        //modelBuilder.Entity<StatePrice>().HasData(StatePriceSeed.Seed);
+
+        modelBuilder.Entity<CityPrice>().HasData(CityPriceSeed.Seed);
+
+
         var order_product = modelBuilder.Entity<OrderProduct>();
         order_product.HasKey(x => x.Id);
         order_product.Property(x => x.Unit_Price).HasColumnName("unit_price").HasColumnType("decimal").IsRequired();

@@ -2,7 +2,7 @@
 
 namespace DevInSales.Seeds
 {
-    public class CityPriceSeed
+    public static class CityPriceSeed
     {
         public static List<CityPrice> Seed { get; set; } = new List<CityPrice>()
         {
