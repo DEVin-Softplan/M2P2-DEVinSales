@@ -37,11 +37,13 @@ namespace DevInSales.Controllers
                 .ToList()
                 .FindAll(x => x.User.Id == user_id);
 
+                if (listaVendas == null) return StatusCode(404);
+
                 return listaVendas;
             }
             catch
             {
-                return StatusCode(404);
+                throw;
             }
         }
 
@@ -68,11 +70,13 @@ namespace DevInSales.Controllers
                 .ToList()
                 .FindAll(x => x.Seller.Id == user_id);
 
+                if (listaVendas == null) return StatusCode(404);
+
                 return listaVendas;
             }
             catch
             {
-                return StatusCode(404);
+                throw;
             }
         }
 
