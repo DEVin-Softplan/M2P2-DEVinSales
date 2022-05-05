@@ -50,11 +50,10 @@ public class SqlContext : DbContext
         modelBuilder.Entity<User>().HasData(UserSeed.Seed);
 
         modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
-        
-        // Douglas
+                
         modelBuilder.Entity<ShippingCompany>().HasData(ShippingCompanySeed.Seed);
 
-        //modelBuilder.Entity<StatePrice>().HasData(StatePriceSeed.Seed);
+        modelBuilder.Entity<StatePrice>().HasData(StatePriceSeed.Seed);
 
         modelBuilder.Entity<CityPrice>().HasData(CityPriceSeed.Seed);
 

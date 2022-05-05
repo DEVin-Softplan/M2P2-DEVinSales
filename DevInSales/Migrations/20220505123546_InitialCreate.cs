@@ -6862,6 +6862,29 @@ namespace DevInSales.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "StatePrice",
+                columns: new[] { "Id", "BasePrice", "ShippingCompanyId", "StateId" },
+                values: new object[,]
+                {
+                    { 1, 17m, 1, 11 },
+                    { 2, 20m, 1, 22 },
+                    { 3, 30m, 1, 33 },
+                    { 4, 19m, 2, 11 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "StatePrice",
+                columns: new[] { "Id", "BasePrice", "ShippingCompanyId", "StateId" },
+                values: new object[,]
+                {
+                    { 5, 29m, 2, 22 },
+                    { 6, 37m, 2, 33 },
+                    { 7, 10m, 3, 11 },
+                    { 8, 35m, 3, 22 },
+                    { 9, 33m, 3, 33 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "id", "birth_date", "email", "name", "password", "ProfileId" },
                 values: new object[,]
