@@ -17,7 +17,47 @@ namespace DevInSales.Controllers
             _context = context;
         }
 
+
         [HttpPost]
+        [Route("state/company")]
+        public async Task<ActionResult<List<StatePriceDTO>>> PostStateCompany(IEnumerable<StatePriceDTO> statePrices)
+        {
+            if (!ExistStateAndCompany(statePrices))
+                return NotFound();
+
+            var statePricesEnity = GetStatePrices(statePrices);
+            _context.StatePrice.AddRange(statePricesEnity);
+
+            if (await _context.SaveChangesAsync() > 0)
+                return Created("", statePrices);
+
+            return BadRequest();
+
+        }
+        private bool ExistStateAndCompany(IEnumerable<StatePriceDTO> statePrices)
+        {
+            var listCompany = statePrices.Select(sp => sp.ShippingCompanyId).Distinct();
+            var listStates = statePrices.Select(sp => sp.StateId).Distinct();
+            var companiesCount = _context.ShippingCompany.Where(sc => listCompany.Contains(sc.Id)).Count();
+            var statesCount = _context.State.Where(s => listStates.Contains(s.Id)).Count();
+
+            if (companiesCount != listCompany.Count() || statesCount != listStates.Count())
+                return false;
+
+            return true;
+        }
+
+        private IEnumerable<StatePrice> GetStatePrices(IEnumerable<StatePriceDTO> statePrices)
+        {
+            return statePrices.Select(cp => new StatePrice
+            {
+                StateId = cp.StateId,
+                ShippingCompanyId = cp.ShippingCompanyId,
+                BasePrice = cp.BasePrice,
+            });
+        }
+
+            [HttpPost]
         [Route("city/company")]
         public async Task<ActionResult<List<CityPriceDTO>>> PostCityCompany(IEnumerable<CityPriceDTO> cityPrices)
         {
@@ -56,6 +96,5 @@ namespace DevInSales.Controllers
                 BasePrice = cp.BasePrice,
             });
         }
-
     }
 }
