@@ -79,9 +79,15 @@ public class SqlContext : DbContext
         delivery.Property(x => x.Delivery_Date).HasColumnName("delivery_Date").HasColumnType("date");
         delivery.Property(x => x.Status).HasColumnName("status").HasColumnType("int").IsRequired();
 
+        var state_price = modelBuilder.Entity<StatePrice>();
+        state_price.HasKey(x => x.Id);
+        state_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
+        state_price.Property(x => x.BasePrice).HasColumnName("base_preco").HasColumnType("decimal").IsRequired();
+        
         var city_price = modelBuilder.Entity<CityPrice>();
         city_price.HasKey(x => x.Id);
         city_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
         city_price.Property(x => x.BasePrice).HasColumnName("base_preco").HasColumnType("decimal").IsRequired();
+
     }
 }
