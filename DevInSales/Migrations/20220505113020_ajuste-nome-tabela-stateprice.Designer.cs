@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220505013942_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220505113020_ajuste-nome-tabela-stateprice")]
+    partial class ajustenometabelastateprice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34116,12 +34116,14 @@ namespace DevInSales.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("BasePrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal")
+                        .HasColumnName("base_preco");
 
                     b.Property<int>("ShippingCompanyId")
                         .HasColumnType("int");

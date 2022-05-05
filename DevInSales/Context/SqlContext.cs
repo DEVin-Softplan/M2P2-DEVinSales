@@ -50,11 +50,10 @@ public class SqlContext : DbContext
         modelBuilder.Entity<User>().HasData(UserSeed.Seed);
 
         modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
-        
-        // Douglas
+                
         modelBuilder.Entity<ShippingCompany>().HasData(ShippingCompanySeed.Seed);
 
-        //modelBuilder.Entity<StatePrice>().HasData(StatePriceSeed.Seed);
+        modelBuilder.Entity<StatePrice>().HasData(StatePriceSeed.Seed);
 
         modelBuilder.Entity<CityPrice>().HasData(CityPriceSeed.Seed);
 
@@ -79,6 +78,11 @@ public class SqlContext : DbContext
         delivery.Property(x => x.Delivery_Date).HasColumnName("delivery_Date").HasColumnType("date");
         delivery.Property(x => x.Status).HasColumnName("status").HasColumnType("int").IsRequired();
 
+        var state_price = modelBuilder.Entity<StatePrice>();
+        state_price.HasKey(x => x.Id);
+        state_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
+        state_price.Property(x => x.BasePrice).HasColumnName("base_preco").HasColumnType("decimal").IsRequired();
+        
         var shipping_company = modelBuilder.Entity<ShippingCompany>();
         shipping_company.HasKey(x => x.Id);
         shipping_company.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
@@ -88,5 +92,6 @@ public class SqlContext : DbContext
         city_price.HasKey(x => x.Id);
         city_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
         city_price.Property(x => x.BasePrice).HasColumnName("base_preco").HasColumnType("decimal").IsRequired();
+
     }
 }
