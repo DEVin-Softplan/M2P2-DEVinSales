@@ -17,6 +17,37 @@ namespace DevInSales.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        [Route("company/{id:int}")]
+        public async Task<ActionResult<ShippingCompany>> GetCompanyById(int id)
+        {
+            var company = await _context.ShippingCompany.FindAsync(id);
+            if (company == null)
+                return NotFound();
+
+            return Ok(company);
+        }
+
+        [HttpGet]
+        [Route("state/{stateId:int}/company/{companyId:int}")]
+        public async Task<ActionResult<List<StatePrice>>> GetStateCompanyById(int stateId, int companyId)
+        {
+
+            if (!CompanyExist(companyId))
+                return NotFound();
+
+            var tabelaPreco = _context.StatePrice.Where(sp=> sp.ShippingCompanyId ==companyId && sp.StateId == stateId).ToList();
+
+            return Ok(tabelaPreco);
+
+        }
+
+        private bool CompanyExist(int companyId)
+        {
+            return _context.StatePrice.Find(companyId) != null;
+
+        }
+
         [HttpPost]
         [Route("city/company")]
         public async Task<ActionResult<List<CityPriceDTO>>> PostCityCompany(IEnumerable<CityPriceDTO> cityPrices)

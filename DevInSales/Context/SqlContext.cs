@@ -78,6 +78,11 @@ public class SqlContext : DbContext
         delivery.Property(x => x.Delivery_Date).HasColumnName("delivery_Date").HasColumnType("date");
         delivery.Property(x => x.Status).HasColumnName("status").HasColumnType("int").IsRequired();
 
+        var shipping_company = modelBuilder.Entity<ShippingCompany>();
+        shipping_company.HasKey(x => x.Id);
+        shipping_company.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
+        shipping_company.Property(x => x.Name).HasColumnName("Name").HasColumnType("varchar").HasMaxLength(255);
+
         var city_price = modelBuilder.Entity<CityPrice>();
         city_price.HasKey(x => x.Id);
         city_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
