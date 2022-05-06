@@ -135,6 +135,10 @@ namespace DevInSales.Controllers
             DateTime dataNascimento = DateTime.ParseExact(data, "dd/MM/yyyy", new CultureInfo("pt-BR"));
             DateTime diaAtual = DateTime.Today;
             int idade = diaAtual.Year - dataNascimento.Year;
+            if (dataNascimento > diaAtual.AddYears(-idade))
+            {
+                idade--;
+            }
             if (idade >= 18)
             {
                 return true;
