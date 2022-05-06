@@ -142,7 +142,6 @@ namespace DevInSales.Controllers
 
                 if (order_id.ToString() == null) return StatusCode(404);
 
-
                 return Ok(listaVendas);
 
             }
