@@ -157,5 +157,21 @@ namespace DevInSales.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete]
+        [Route("state/{statePriceId}")]
+        public async Task<IActionResult> DeleteStatePrice(int statePriceId)
+        {
+            var statePrice = await _context.StatePrice.FindAsync(statePriceId);
+            if (statePrice == null)
+                return NotFound();
+
+            _context.StatePrice.Remove(statePrice);
+
+            if ((await _context.SaveChangesAsync()) > 0)
+                return NoContent();
+
+            return BadRequest();
+        }
     }
 }
