@@ -49,18 +49,6 @@ namespace DevInSales.Controllers
 
         }
 
-        [HttpGet]
-        [Route("company/{id:int}")]
-        public async Task<ActionResult<ShippingCompany>> GetCompanyById(int id)
-        {
-            var company = await _context.ShippingCompany.FindAsync(id);
-            if (company == null)
-                return NotFound();
-
-            return Ok(company);
-        }
-
-
         [HttpPost]
         [Route("state/company")]
         public async Task<ActionResult<List<StatePriceDTO>>> PostStateCompany(IEnumerable<StatePriceDTO> statePrices)
