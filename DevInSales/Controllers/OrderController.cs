@@ -139,8 +139,8 @@ namespace DevInSales.Controllers
                     .ToList()
                     .FindAll(x => x.Id == order_id);
 
-                if (order_id == null) return StatusCode(404);
-
+                if (order_id.ToString() == null) return StatusCode(404);
+                
 
                 return Ok(listaVendas);
 
