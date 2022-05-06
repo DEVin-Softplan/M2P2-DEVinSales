@@ -86,7 +86,7 @@ namespace DevInSales.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Create([FromBody] UserCreateDTO requisicao)
         {
-            if (!isDataNascimentoValida(requisicao.BirthDate))
+            if (!isMaiorDeIdade(requisicao.BirthDate))
             {
                 return BadRequest("O usuário deve ser maior de 18 anos.");
             }
@@ -130,7 +130,7 @@ namespace DevInSales.Controllers
             return Ok(user_id);
         }
 
-        private bool isDataNascimentoValida(string data)
+        private bool isMaiorDeIdade(string data)
         {
             DateTime dataNascimento = DateTime.ParseExact(data, "dd/MM/yyyy", new CultureInfo("pt-BR"));
             DateTime diaAtual = DateTime.Today;
