@@ -25,7 +25,7 @@ namespace DevInSales.Controllers
             List<ShippingCompany> retorno = new List<ShippingCompany>();
             if (name == null)
                 return Ok(await _context.ShippingCompany.ToListAsync());
-            
+
             var temp = await _context.ShippingCompany.FirstOrDefaultAsync(x => x.Name.Contains(name));
             if (temp == null)
                 return NotFound();
@@ -47,36 +47,46 @@ namespace DevInSales.Controllers
 
         [HttpGet]
         [Route("state/{stateId:int}/company/{companyId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<StatePrice>>> GetStateCompanyById(int stateId, int companyId)
         {
+            try
+            {
+                var tabelaPreco = _context.StatePrice.Where(sp => sp.ShippingCompanyId == companyId && sp.StateId == stateId).ToList();
 
-            if (!CompanyExist(companyId))
-                return NotFound();
+                if (tabelaPreco.Count == 0)
+                    return NotFound();
 
-            var tabelaPreco = _context.StatePrice.Where(sp => sp.ShippingCompanyId == companyId && sp.StateId == stateId).ToList();
+                return Ok(tabelaPreco);
 
-            return Ok(tabelaPreco);
-
-        }
-
-        private bool CompanyExist(int companyId)
-        {
-            return _context.StatePrice.Find(companyId) != null;
-
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet]
         [Route("city/{cityId:int}/company/{companyId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<CityPrice>>> GetCityCompanyById(int cityId, int companyId)
         {
+            try
+            {
+                var tabelaPreco = _context.CityPrice.Where(sp => sp.ShippingCompanyId == companyId && sp.CityId == cityId).ToList();
+                if (tabelaPreco.Count == 0)
+                    return NotFound();
 
-            if (!CompanyExist(companyId))
-                return NotFound();
-
-            var tabelaPreco = _context.CityPrice.Where(sp => sp.ShippingCompanyId == companyId && sp.CityId == cityId).ToList();
-
-            return Ok(tabelaPreco);
-
+                return Ok(tabelaPreco);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
