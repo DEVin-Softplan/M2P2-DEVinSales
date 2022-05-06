@@ -11,11 +11,11 @@ public class SqlContext : DbContext
     public DbSet<Profile> Profile { get; set; }
     public DbSet<Product> Product { get; set; }
     public DbSet<Category> Category { get; set; }
-    
+
     public DbSet<City> City { get; set; }
     public DbSet<State> State { get; set; }
     public DbSet<Address> Address { get; set; }
-    
+
     public DbSet<OrderProduct> Order_Product { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<Delivery> Delivery { get; set; }
@@ -36,11 +36,11 @@ public class SqlContext : DbContext
         category.Property(x => x.Id).HasColumnName("id").ValueGeneratedOnAdd();
         category.Property(x => x.Name).HasColumnName("name").HasColumnType("varchar(100)").IsRequired();
         category.Property(x => x.Slug).HasColumnName("slug").HasColumnType("varchar(100)").IsRequired();
-        
+
         modelBuilder.Entity<State>().HasData(StateSeed.Seed);
 
         modelBuilder.Entity<City>().HasData(CitySeed.Seed());
-        
+
         modelBuilder.Entity<Address>().HasData(AddressSeed.Seed);
 
         modelBuilder.Entity<Category>().HasData(CategorySeed.Seed);
@@ -50,7 +50,7 @@ public class SqlContext : DbContext
         modelBuilder.Entity<User>().HasData(UserSeed.Seed);
 
         modelBuilder.Entity<Product>().HasData(ProductSeed.Seed);
-                
+
         modelBuilder.Entity<ShippingCompany>().HasData(ShippingCompanySeed.Seed);
 
         modelBuilder.Entity<StatePrice>().HasData(StatePriceSeed.Seed);
@@ -81,8 +81,8 @@ public class SqlContext : DbContext
         var state_price = modelBuilder.Entity<StatePrice>();
         state_price.HasKey(x => x.Id);
         state_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
-        state_price.Property(x => x.BasePrice).HasColumnName("base_preco").HasColumnType("decimal").IsRequired();
-        
+        state_price.Property(x => x.BasePrice).HasColumnName("base_price").HasColumnType("decimal").IsRequired();
+
         var shipping_company = modelBuilder.Entity<ShippingCompany>();
         shipping_company.HasKey(x => x.Id);
         shipping_company.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
@@ -91,7 +91,7 @@ public class SqlContext : DbContext
         var city_price = modelBuilder.Entity<CityPrice>();
         city_price.HasKey(x => x.Id);
         city_price.Property(x => x.Id).HasColumnName("id").HasColumnType("int").IsRequired();
-        city_price.Property(x => x.BasePrice).HasColumnName("base_preco").HasColumnType("decimal").IsRequired();
+        city_price.Property(x => x.BasePrice).HasColumnName("base_price").HasColumnType("decimal").IsRequired();
 
     }
 }

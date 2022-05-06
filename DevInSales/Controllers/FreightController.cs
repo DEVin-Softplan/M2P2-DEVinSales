@@ -25,7 +25,7 @@ namespace DevInSales.Controllers
             List<ShippingCompany> retorno = new List<ShippingCompany>();
             if (name == null)
                 return Ok(await _context.ShippingCompany.ToListAsync());
-            
+
             var temp = await _context.ShippingCompany.FirstOrDefaultAsync(x => x.Name.Contains(name));
             if (temp == null)
                 return NotFound();
@@ -45,6 +45,49 @@ namespace DevInSales.Controllers
             return Ok(company);
         }
 
+        [HttpGet]
+        [Route("state/{stateId:int}/company/{companyId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<StatePrice>>> GetStateCompanyById(int stateId, int companyId)
+        {
+            try
+            {
+                var tabelaPreco = _context.StatePrice.Where(sp => sp.ShippingCompanyId == companyId && sp.StateId == stateId).ToList();
+
+                if (tabelaPreco.Count == 0)
+                    return NotFound();
+
+                return Ok(tabelaPreco);
+
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("city/{cityId:int}/company/{companyId:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<CityPrice>>> GetCityCompanyById(int cityId, int companyId)
+        {
+            try
+            {
+                var tabelaPreco = _context.CityPrice.Where(sp => sp.ShippingCompanyId == companyId && sp.CityId == cityId).ToList();
+                if (tabelaPreco.Count == 0)
+                    return NotFound();
+
+                return Ok(tabelaPreco);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
 
         [HttpPost]
         [Route("state/company")]
@@ -123,6 +166,38 @@ namespace DevInSales.Controllers
                 ShippingCompanyId = cp.ShippingCompanyId,
                 BasePrice = cp.BasePrice,
             });
+        }
+
+        [HttpDelete]
+        [Route("city/{cityPriceId}")]
+        public async Task<IActionResult> DeleteCityPrice(int cityPriceId)
+        {
+            var cityPrice = await _context.CityPrice.FindAsync(cityPriceId);
+            if (cityPrice == null)
+                return NotFound();
+
+            _context.CityPrice.Remove(cityPrice);
+
+            if ((await _context.SaveChangesAsync()) > 0)
+                return NoContent();
+
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("state/{statePriceId}")]
+        public async Task<IActionResult> DeleteStatePrice(int statePriceId)
+        {
+            var statePrice = await _context.StatePrice.FindAsync(statePriceId);
+            if (statePrice == null)
+                return NotFound();
+
+            _context.StatePrice.Remove(statePrice);
+
+            if ((await _context.SaveChangesAsync()) > 0)
+                return NoContent();
+
+            return BadRequest();
         }
     }
 }

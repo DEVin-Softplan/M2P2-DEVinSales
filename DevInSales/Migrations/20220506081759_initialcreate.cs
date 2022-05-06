@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DevInSales.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -54,13 +54,13 @@ namespace DevInSales.Migrations
                 name: "ShippingCompany",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShippingCompany", x => x.Id);
+                    table.PrimaryKey("PK_ShippingCompany", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -151,20 +151,20 @@ namespace DevInSales.Migrations
                 name: "StatePrice",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StateId = table.Column<int>(type: "int", nullable: false),
                     ShippingCompanyId = table.Column<int>(type: "int", nullable: false),
-                    BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    base_price = table.Column<decimal>(type: "decimal", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StatePrice", x => x.Id);
+                    table.PrimaryKey("PK_StatePrice", x => x.id);
                     table.ForeignKey(
                         name: "FK_StatePrice_ShippingCompany_ShippingCompanyId",
                         column: x => x.ShippingCompanyId,
                         principalTable: "ShippingCompany",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_StatePrice_State_StateId",
@@ -238,7 +238,7 @@ namespace DevInSales.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CityId = table.Column<int>(type: "int", nullable: false),
-                    base_preco = table.Column<decimal>(type: "decimal", nullable: false),
+                    base_price = table.Column<decimal>(type: "decimal", nullable: false),
                     ShippingCompanyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -254,7 +254,7 @@ namespace DevInSales.Migrations
                         name: "FK_CityPrice_ShippingCompany_ShippingCompanyId",
                         column: x => x.ShippingCompanyId,
                         principalTable: "ShippingCompany",
-                        principalColumn: "Id",
+                        principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -299,7 +299,7 @@ namespace DevInSales.Migrations
 
             migrationBuilder.InsertData(
                 table: "ShippingCompany",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "id", "Name" },
                 values: new object[,]
                 {
                     { 1, "Rapidex" },
@@ -6863,7 +6863,7 @@ namespace DevInSales.Migrations
 
             migrationBuilder.InsertData(
                 table: "StatePrice",
-                columns: new[] { "Id", "BasePrice", "ShippingCompanyId", "StateId" },
+                columns: new[] { "id", "base_price", "ShippingCompanyId", "StateId" },
                 values: new object[,]
                 {
                     { 1, 17m, 1, 11 },
@@ -6874,7 +6874,7 @@ namespace DevInSales.Migrations
 
             migrationBuilder.InsertData(
                 table: "StatePrice",
-                columns: new[] { "Id", "BasePrice", "ShippingCompanyId", "StateId" },
+                columns: new[] { "id", "base_price", "ShippingCompanyId", "StateId" },
                 values: new object[,]
                 {
                     { 5, 29m, 2, 22 },
@@ -6907,7 +6907,7 @@ namespace DevInSales.Migrations
 
             migrationBuilder.InsertData(
                 table: "CityPrice",
-                columns: new[] { "id", "base_preco", "CityId", "ShippingCompanyId" },
+                columns: new[] { "id", "base_price", "CityId", "ShippingCompanyId" },
                 values: new object[,]
                 {
                     { 1, 10m, 1, 1 },

@@ -33583,7 +33583,7 @@ namespace DevInSales.Migrations
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal")
-                        .HasColumnName("base_preco");
+                        .HasColumnName("base_price");
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -33895,13 +33895,16 @@ namespace DevInSales.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("Name");
 
                     b.HasKey("Id");
 
@@ -34121,7 +34124,7 @@ namespace DevInSales.Migrations
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal")
-                        .HasColumnName("base_preco");
+                        .HasColumnName("base_price");
 
                     b.Property<int>("ShippingCompanyId")
                         .HasColumnType("int");
