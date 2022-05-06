@@ -107,7 +107,7 @@ namespace DevInSales.Controllers
                 }
 
                 var orderDB = await _context.Order.FindAsync(order_id);
-                var orderProductDB = _context.Order_Product.Include(op => op.Products).Where(p => p.Id == product_id).FirstOrDefault();
+                var orderProductDB = _context.Order_Product.Include(op => op.Product).Where(p => p.Id == product_id).FirstOrDefault();
 
                 if (orderDB == null || orderProductDB == null)
                 {
