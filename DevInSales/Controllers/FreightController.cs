@@ -19,6 +19,22 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [Route("company/name")]
+        public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string? name)
+        {
+            List<ShippingCompany> retorno = new List<ShippingCompany>();
+            if (name == null)
+                return Ok(await _context.ShippingCompany.ToListAsync());
+            
+            var temp = await _context.ShippingCompany.FirstOrDefaultAsync(x => x.Name.Contains(name));
+            if (temp == null)
+                return NotFound();
+            retorno.Add(temp);
+            return Ok(retorno);
+        }
+
+
+        [HttpGet]
         [Route("company/{id:int}")]
         public async Task<ActionResult<ShippingCompany>> GetCompanyById(int id)
         {
