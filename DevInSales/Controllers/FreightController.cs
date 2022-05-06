@@ -19,8 +19,8 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
-        [Route("company/{name}")]
-        public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string name)
+        [Route("company/name")]
+        public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string? name)
         {
             List<ShippingCompany> retorno = new List<ShippingCompany>();
             if (name == null)
