@@ -37,7 +37,7 @@ namespace DevInSales.Controllers
             if (!CompanyExist(companyId))
                 return NotFound();
 
-            var tabelaPreco = _context.StatePrice.Where(sp=> sp.ShippingCompanyId ==companyId && sp.StateId == stateId).ToList();
+            var tabelaPreco = _context.StatePrice.Where(sp => sp.ShippingCompanyId == companyId && sp.StateId == stateId).ToList();
 
             return Ok(tabelaPreco);
 
@@ -102,7 +102,7 @@ namespace DevInSales.Controllers
             });
         }
 
-            [HttpPost]
+        [HttpPost]
         [Route("city/company")]
         public async Task<ActionResult<List<CityPriceDTO>>> PostCityCompany(IEnumerable<CityPriceDTO> cityPrices)
         {
@@ -140,6 +140,22 @@ namespace DevInSales.Controllers
                 ShippingCompanyId = cp.ShippingCompanyId,
                 BasePrice = cp.BasePrice,
             });
+        }
+
+        [HttpDelete]
+        [Route("city/{cityPriceId}")]
+        public async Task<IActionResult> DeleteCityPrice(int cityPriceId)
+        {
+            var cityPrice = await _context.CityPrice.FindAsync(cityPriceId);
+            if (cityPrice == null)
+                return NotFound();
+
+            _context.CityPrice.Remove(cityPrice);
+
+            if ((await _context.SaveChangesAsync()) > 0)
+                return NoContent();
+
+            return BadRequest();
         }
     }
 }
