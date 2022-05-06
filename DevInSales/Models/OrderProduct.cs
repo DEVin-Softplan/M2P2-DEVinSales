@@ -9,9 +9,9 @@ public class OrderProduct
     public decimal Unit_Price { get; set; }
     public int Amount { get; set; }
 
-    public ICollection<Order>? Orders { get; set; }
+    public Order Order { get; set; }
 
-    public ICollection<Product> Products { get; set; }
+    public Product Product { get; set; }
 
 
 }

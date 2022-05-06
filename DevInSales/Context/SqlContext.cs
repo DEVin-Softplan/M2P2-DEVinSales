@@ -59,7 +59,6 @@ public class SqlContext : DbContext
         order.Property(x => x.Date_Order).HasColumnName("date_order").HasColumnType("date").IsRequired();
         //order.Property(x => x.Shipping_Company).HasColumnName("shipping_Company").IsRequired();
         order.Property(x => x.Shipping_Company_Price).HasColumnName("shipping_company_price").HasColumnType("decimal").IsRequired();
-        order.HasOne(x => x.User).WithMany().OnDelete(DeleteBehavior.Restrict);
 
         var delivery = modelBuilder.Entity<Delivery>();
         delivery.HasKey(x => x.Id);
