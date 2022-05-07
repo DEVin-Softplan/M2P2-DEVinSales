@@ -34,7 +34,7 @@ namespace DevInSales.Controllers
                           select new FreightResult { NameCompany = company.Name, TotalFreight = statePrice.BasePrice + cityprice.BasePrice })
                           .OrderBy(r => r.TotalFreight).ToList();
 
-            if (result == null)
+            if (!result.Any())
                 return NotFound();
 
             return result;
