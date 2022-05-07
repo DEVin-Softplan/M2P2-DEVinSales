@@ -69,6 +69,27 @@ namespace DevInSales.Seeds
                 ShippingCompanyId = 3,
                 BasePrice = 33
             },
+            new CityPrice
+            {
+                Id = 10,
+                CityId = 1,
+                ShippingCompanyId = 4,
+                BasePrice = 5
+            },
+            new CityPrice
+            {
+                Id = 11,
+                CityId = 2,
+                ShippingCompanyId = 4,
+                BasePrice = 6
+            },
+            new CityPrice
+            {
+                Id = 12,
+                CityId = 3,
+                ShippingCompanyId = 4,
+                BasePrice = 7
+            },
         };
     }
 }

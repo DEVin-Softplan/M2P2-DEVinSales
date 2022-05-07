@@ -69,6 +69,27 @@ namespace DevInSales.Seeds
                 ShippingCompanyId = 3,
                 BasePrice = 33
             },
+            new StatePrice
+            {
+                Id = 10,
+                StateId = 11,
+                ShippingCompanyId = 4,
+                BasePrice = 5
+            },
+            new StatePrice
+            {
+                Id = 11,
+                StateId = 22,
+                ShippingCompanyId = 4,
+                BasePrice = 6
+            },
+            new StatePrice
+            {
+                Id = 12,
+                StateId = 33,
+                ShippingCompanyId = 4,
+                BasePrice = 7
+            },
         };
     }
 }

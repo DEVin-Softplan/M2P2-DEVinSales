@@ -20,6 +20,11 @@ namespace DevInSales.Seeds
             {
                 Id = 3,
                 Name = "Além Paraíba"
+            },
+            new ShippingCompany
+            {
+                Id = 4,
+                Name = "Empresa Padrão"
             }
         };
     }
