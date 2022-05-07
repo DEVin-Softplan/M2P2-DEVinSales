@@ -8,7 +8,7 @@ namespace DevInSales.Models
         public Order Order { get; set; }
         public Address Address { get; set; }
         public DateTime Delivery_Forecast { get; set; }
-        public DateTime Delivery_Date { get; set; }
+        public DateTime? Delivery_Date { get; set; }
         public StatusEnum Status { get; set; }
 
     }
