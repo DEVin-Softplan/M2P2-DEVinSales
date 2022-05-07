@@ -44,15 +44,15 @@ namespace DevInSales.Controllers
         [Route("company/name")]
         public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string? name)
         {
-            List<ShippingCompany> retorno = new List<ShippingCompany>();
             if (name == null)
                 return Ok(await _context.ShippingCompany.ToListAsync());
 
-            var temp = await _context.ShippingCompany.FirstOrDefaultAsync(x => x.Name.Contains(name));
-            if (temp == null)
+            var consulta = _context.ShippingCompany as IQueryable<ShippingCompany>;
+            consulta = consulta.Where(x => x.Name.Contains(name));
+            var result = await consulta.OrderBy(c => c.Name).ToListAsync();
+            if (!result.Any())
                 return NotFound();
-            retorno.Add(temp);
-            return Ok(retorno);
+            return Ok(result);
         }
 
 
