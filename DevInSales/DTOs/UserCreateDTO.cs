@@ -30,7 +30,6 @@ namespace DevInSales.DTOs
         /// </summary>
         [Required(ErrorMessage = "O campo {0} do usuário precisa ser informado.")]
         [StringLength(maximumLength: 50, MinimumLength = 4, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres.")]
-        [RegularExpression(@"\w*\d", ErrorMessage = "O campo {0} deve ter pelo menos um caractere alfabético e um numérico.")]
         [DataType(DataType.Password)]
         [Display(Name = "password")]
         public string Password { get; set; }
