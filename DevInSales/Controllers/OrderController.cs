@@ -96,7 +96,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Patch(int order_id, int product_id, decimal price)
+        public async Task<ActionResult> PatchPrice(int order_id, int product_id, decimal price)
         {
 
             if (price <= 0)
@@ -135,7 +135,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> Patch(int order_id, int product_id, int amount)
+        public async Task<ActionResult> PatchAmount(int order_id, int product_id, int amount)
         {
            
                 if (amount <= 0)
