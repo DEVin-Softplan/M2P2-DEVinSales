@@ -79,7 +79,45 @@ namespace DevInSales.Controllers
                 throw;
             }
         }
+        /// <summary>
+        /// Atualiza a quantidade do item de venda
+        /// </summary>
+        /// <param name="order_id">Filtra pelo Id do pedido</param>
+        /// <param name="product_id">Filtra pelo Id do produto</param>
+        /// <param name="price">Atualiza a quantidade</param>
+        /// <returns>Atualiza a quantidade do item de venda</returns>
+        /// <response code="204">Registro atualizado.</response>
+        /// <response code="400">Requisição incorreta.</response>
+        /// <response code="404">Registro não encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante a consulta</response>
+        [HttpPatch("{order_id}/product/{product_id}/price/{price}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Patch(int order_id, int product_id, decimal price)
+        {
 
+            if (price <= 0)
+            {
+                return BadRequest();
+            }
+
+            var orderDB = await _context.Order.FindAsync(order_id);
+            var orderProductDB = _context.Order_Product.Include(op => op.Product).Where(p => p.Id == product_id).FirstOrDefault();
+
+            if (orderDB == null || orderProductDB == null)
+            {
+                return NotFound();
+            }
+
+            orderProductDB.Unit_Price = price;
+            _context.Entry(orderProductDB).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+
+        }
         /// <summary>
         /// Atualiza a quantidade do item de venda
         /// </summary>
@@ -98,8 +136,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult> Patch(int order_id, int product_id, int amount)
         {
-            try
-            {
+           
                 if (amount <= 0)
                 {
                     return BadRequest();
@@ -118,11 +155,7 @@ namespace DevInSales.Controllers
 
                 await _context.SaveChangesAsync();
                 return NoContent();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+           
         }
         [HttpGet("order/{order_id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
