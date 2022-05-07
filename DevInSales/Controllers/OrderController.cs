@@ -1,4 +1,5 @@
 ﻿using DevInSales.Context;
+using DevInSales.DTOs;
 using DevInSales.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -173,7 +174,6 @@ namespace DevInSales.Controllers
                     .FindAll(x => x.Id == order_id);
 
                 if (order_id.ToString() == null) return StatusCode(404);
-                
 
                 return Ok(listaVendas);
 
@@ -184,7 +184,68 @@ namespace DevInSales.Controllers
 
             }
         }
+        [HttpPost("order/{order_id}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
+        public async Task<ActionResult<OrderProduct>> PostOrderProduct (int order_id, [FromBody] OrderProductCreateDTO orderProductDTO)
+        {
+            try
+            {
+                var orderDB = await _context.Order.FindAsync(orderProductDTO.Order_Id);
+                var productDB = await _context.Product.FindAsync(orderProductDTO.Product_Id);
+
+                if (orderProductDTO.Product_Id.ToString() == null)
+                {
+                    return StatusCode(404);
+                }
+                if (orderDB == null || productDB == null)
+                {
+                    return StatusCode(404);
+                }
+                if (orderProductDTO.Amount <= 0)
+                {
+                    return StatusCode(400);
+                }
+                if (orderProductDTO.Unit_Price <= 0)
+                {
+                    return BadRequest("Preço inválido");
+                }
+                
+
+                if (orderProductDTO.Unit_Price.ToString() == null)
+                {
+                    orderProductDTO.Unit_Price = productDB.Suggested_Price;
+                }
+                
+                if (orderProductDTO.Amount.ToString() == null)
+                {
+                    orderProductDTO.Amount = 1;
+                }
+
+                var OrderProduct = OrderProductCreateDTO.ConverterParaEntidade(orderProductDTO, productDB, orderDB);
+                    _context.Order_Product.Add(OrderProduct);
+                    await _context.SaveChangesAsync();
+
+                return StatusCode(201,OrderProduct.Id);
+
+            }
+
+            catch
+            {
+                throw;
+            }
+        }
     }
-
 }
+
+
+
+
+
+
+
+
+
