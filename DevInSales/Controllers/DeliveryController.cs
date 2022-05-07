@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevInSales.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/delivery")]
     [ApiController]
     public class DeliveryController : ControllerBase
     {
@@ -59,6 +59,49 @@ namespace DevInSales.Controllers
                 return NoContent();
             }
             return Ok(deliverys); 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="delivery_id"></param>
+        /// <param name="delivery_date"></param>
+        /// <returns></returns>
+        /// <response code="200"></response>
+        /// <response code="404"></response>
+        /// <response code="500"></response>
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> PatchDelivery(int delivery_id, DateTime delivery_date)
+        {
+            try
+            {
+                if (delivery_date.ToString() == null || delivery_id.ToString() == null)
+                {
+                    return StatusCode(400);
+                }
+
+                var deliveryDB = await _context.Delivery.FindAsync(delivery_id);
+
+                if (deliveryDB == null)
+                {
+                    return StatusCode(404);
+                }
+
+                deliveryDB.Delivery_Date = delivery_date;
+                deliveryDB.Status = Enums.StatusEnum.PedidoEntregue;
+                _context.Entry(deliveryDB).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+                return StatusCode(200);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
     }
