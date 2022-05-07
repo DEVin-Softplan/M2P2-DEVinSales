@@ -1,4 +1,5 @@
 ﻿using DevInSales.Context;
+using DevInSales.DTOs;
 using DevInSales.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -157,48 +158,47 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-        public async Task<ActionResult<OrderProduct>> CreatePost([FromBody] int product_id, decimal unit_price, int amount)
+        public async Task<ActionResult<OrderProduct>> PostOrderProduct (int order_id, [FromBody] OrderProductCreateDTO orderProductDTO)
         {
             try
             {
+                var orderDB = await _context.Order.FindAsync(orderProductDTO.Order_Id);
+                var productDB = await _context.Product.FindAsync(orderProductDTO.Product_Id);
 
-                var orderProductDB = _context.Order_Product.Include(op => op.Products).Where(p => p.Id == product_id).FirstOrDefault();
-                var productDB = await _context.Product.FindAsync(product_id);
-                var unitpriceDB = await _context.Order_Product.FindAsync(unit_price);
-                var amountDB = await _context.Order_Product.FindAsync(amount);
-
-                if (orderProductDB.ToString() == null || productDB.ToString == null || unitpriceDB.ToString == null || amountDB.ToString() == null)
+                if (orderProductDTO.Product_Id.ToString() == null)
                 {
-                    return NotFound("Produto não encontrado");
+                    return StatusCode(404);
                 }
-                if (amount <= 0)
+                if (orderDB == null || productDB == null)
                 {
-                    return BadRequest("Quantidade inválida");
+                    return StatusCode(404);
                 }
-                if (unit_price <= 0)
+                if (orderProductDTO.Amount <= 0)
+                {
+                    return StatusCode(400);
+                }
+                if (orderProductDTO.Unit_Price <= 0)
                 {
                     return BadRequest("Preço inválido");
                 }
                 
 
-                if (unit_price.ToString() == null)
+                if (orderProductDTO.Unit_Price.ToString() == null)
                 {
-                    var suggestedprice = _context.Product.Where(p => p.Suggested_Price == unit_price).FirstOrDefault();
-                    unit_price = suggestedprice.Suggested_Price;
-                    return CreatedAtAction("Create", new { unit_price = suggestedprice });
+                    orderProductDTO.Unit_Price = productDB.Suggested_Price;
                 }
                 
-                if (amount.ToString() == null)
+                if (orderProductDTO.Amount.ToString() == null)
                 {
-                    amount = 1;
+                    orderProductDTO.Amount = 1;
                 }
-              
-                    OrderProduct orderproduct = new OrderProduct { Amount = amount, Unit_Price = unit_price, Id = product_id, Orders = orderProductDB.Orders};
-                    _context.Order_Product.Add(orderproduct);
+
+                var OrderProduct = OrderProductCreateDTO.ConverterParaEntidade(orderProductDTO, productDB, orderDB);
+                    _context.Order_Product.Add(OrderProduct);
                     await _context.SaveChangesAsync();
-                
-                    return Ok(orderproduct);
-                 
+
+                return StatusCode(201,OrderProduct.Id);
+
             }
 
             catch
