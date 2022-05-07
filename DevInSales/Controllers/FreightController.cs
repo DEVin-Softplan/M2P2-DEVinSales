@@ -19,19 +19,23 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
-        [Route("")]
-        public List<CityPrice> GetFreight(int cityId)
+        [Route("{cityId:int}")]
+        public ActionResult<IList<FreightResult>> GetFreight(int cityId)
         {
-            var result = _context.CityPrice
-                 .FromSqlRaw($"select CityPrice.id, CityPrice.CityId, CityPrice.ShippingCompanyId,ShippingCompany.Name,\n" +
-                             $"sum(StatePrice.base_price + CityPrice.base_price) as 'base_price' from ShippingCompany \n" +
-                             $"inner join CityPrice on CityPrice.ShippingCompanyId = ShippingCompany.Id \n" +
-                             $"inner join City on City.Id = CityPrice.CityId \n" +
-                             $"inner join StatePrice on(StatePrice.ShippingCompanyId = ShippingCompany.Id \n" +
-                             $"and StatePrice.StateId = City.State_Id) where CityPrice.CityId = {cityId} \n" +
-                             $"group by CityPrice.id, CityPrice.CityId, CityPrice.ShippingCompanyId, ShippingCompany.name, \n" +
-                             $"(StatePrice.base_price + CityPrice.base_price) order by (StatePrice.base_price + CityPrice.base_price)")
-                 .ToList();
+            var cityPricesQueryable = _context.CityPrice.AsQueryable();
+            var cityQueryable = _context.City.AsQueryable();
+            var companyQueryable = _context.ShippingCompany.AsQueryable();
+            var statePriceQueryable = _context.StatePrice.AsQueryable();
+
+            var result = (from cityprice in cityPricesQueryable.Where(c => c.CityId == cityId)
+                          from city in cityQueryable.Where(c => c.Id == cityprice.CityId)
+                          from statePrice in statePriceQueryable.Where(sp => sp.StateId == city.State_Id)
+                          from company in companyQueryable.Where(sc => sc.Id == cityprice.ShippingCompanyId && sc.Id == statePrice.ShippingCompanyId)
+                          select new FreightResult { NameCompany = company.Name, TotalFreight = statePrice.BasePrice + cityprice.BasePrice })
+                          .OrderBy(r => r.TotalFreight).ToList();
+
+            if (result == null)
+                return NotFound();
 
             return result;
         }
