@@ -19,6 +19,24 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [Route("")]
+        public List<CityPrice> GetFreight(int cityId)
+        {
+            var result = _context.CityPrice
+                 .FromSqlRaw($"select CityPrice.id, CityPrice.CityId, CityPrice.ShippingCompanyId,ShippingCompany.Name,\n" +
+                             $"sum(StatePrice.base_price + CityPrice.base_price) as 'base_price' from ShippingCompany \n" +
+                             $"inner join CityPrice on CityPrice.ShippingCompanyId = ShippingCompany.Id \n" +
+                             $"inner join City on City.Id = CityPrice.CityId \n" +
+                             $"inner join StatePrice on(StatePrice.ShippingCompanyId = ShippingCompany.Id \n" +
+                             $"and StatePrice.StateId = City.State_Id) where CityPrice.CityId = {cityId} \n" +
+                             $"group by CityPrice.id, CityPrice.CityId, CityPrice.ShippingCompanyId, ShippingCompany.name, \n" +
+                             $"(StatePrice.base_price + CityPrice.base_price) order by (StatePrice.base_price + CityPrice.base_price)")
+                 .ToList();
+
+            return result;
+        }
+
+        [HttpGet]
         [Route("company/name")]
         public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string? name)
         {
