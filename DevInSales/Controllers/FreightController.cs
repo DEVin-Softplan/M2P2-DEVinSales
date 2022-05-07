@@ -19,52 +19,84 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("{cityId:int}")]
         public ActionResult<IList<FreightResult>> GetFreight(int cityId)
         {
-            var cityPricesQueryable = _context.CityPrice.AsQueryable();
-            var cityQueryable = _context.City.AsQueryable();
-            var companyQueryable = _context.ShippingCompany.AsQueryable();
-            var statePriceQueryable = _context.StatePrice.AsQueryable();
+            try
+            {
 
-            var result = (from cityprice in cityPricesQueryable.Where(c => c.CityId == cityId)
-                          from city in cityQueryable.Where(c => c.Id == cityprice.CityId)
-                          from statePrice in statePriceQueryable.Where(sp => sp.StateId == city.State_Id)
-                          from company in companyQueryable.Where(sc => sc.Id == cityprice.ShippingCompanyId && sc.Id == statePrice.ShippingCompanyId)
-                          select new FreightResult { NameCompany = company.Name, TotalFreight = statePrice.BasePrice + cityprice.BasePrice })
-                          .OrderBy(r => r.TotalFreight).ToList();
+                var cityPricesQueryable = _context.CityPrice.AsQueryable();
+                var cityQueryable = _context.City.AsQueryable();
+                var companyQueryable = _context.ShippingCompany.AsQueryable();
+                var statePriceQueryable = _context.StatePrice.AsQueryable();
 
-            if (!result.Any())
-                return NotFound();
+                var result = (from cityprice in cityPricesQueryable.Where(c => c.CityId == cityId)
+                              from city in cityQueryable.Where(c => c.Id == cityprice.CityId)
+                              from statePrice in statePriceQueryable.Where(sp => sp.StateId == city.State_Id)
+                              from company in companyQueryable.Where(sc => sc.Id == cityprice.ShippingCompanyId && sc.Id == statePrice.ShippingCompanyId)
+                              select new FreightResult { NameCompany = company.Name, TotalFreight = statePrice.BasePrice + cityprice.BasePrice })
+                              .OrderBy(r => r.TotalFreight).ToList();
 
-            return result;
+                if (!result.Any())
+                    return NotFound();
+
+                return Ok(result);                
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("company/name")]
         public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string? name)
         {
-            List<ShippingCompany> retorno = new List<ShippingCompany>();
-            if (name == null)
-                return Ok(await _context.ShippingCompany.ToListAsync());
+            try
+            {
+                List<ShippingCompany> retorno = new List<ShippingCompany>();
+                if (name == null)
+                    return Ok(await _context.ShippingCompany.ToListAsync());
 
-            var temp = await _context.ShippingCompany.FirstOrDefaultAsync(x => x.Name.Contains(name));
-            if (temp == null)
-                return NotFound();
-            retorno.Add(temp);
-            return Ok(retorno);
+                var temp = await _context.ShippingCompany.FirstOrDefaultAsync(x => x.Name.Contains(name));
+                if (temp == null)
+                    return NotFound();
+
+                retorno.Add(temp);
+                return Ok(retorno);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
 
         [HttpGet]
         [Route("company/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ShippingCompany>> GetCompanyById(int id)
         {
-            var company = await _context.ShippingCompany.FindAsync(id);
-            if (company == null)
-                return NotFound();
+            try
+            {
+                var company = await _context.ShippingCompany.FindAsync(id);
+                if (company == null)
+                    return NotFound();
 
-            return Ok(company);
+                return Ok(company);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet]
@@ -112,20 +144,29 @@ namespace DevInSales.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("state/company")]
         public async Task<ActionResult<List<StatePriceDTO>>> PostStateCompany(IEnumerable<StatePriceDTO> statePrices)
         {
-            if (!ExistStateAndCompany(statePrices))
-                return NotFound();
+            try
+            {
+                if (!ExistStateAndCompany(statePrices))
+                    return NotFound();
 
-            var statePricesEnity = GetStatePrices(statePrices);
-            _context.StatePrice.AddRange(statePricesEnity);
+                var statePricesEnity = GetStatePrices(statePrices);
+                _context.StatePrice.AddRange(statePricesEnity);
 
-            if (await _context.SaveChangesAsync() > 0)
-                return Created("", statePrices);
+                if (await _context.SaveChangesAsync() > 0)
+                    return Created("", statePrices);
 
-            return BadRequest();
-
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
         private bool ExistStateAndCompany(IEnumerable<StatePriceDTO> statePrices)
         {
@@ -152,19 +193,28 @@ namespace DevInSales.Controllers
 
         [HttpPost]
         [Route("city/company")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<CityPriceDTO>>> PostCityCompany(IEnumerable<CityPriceDTO> cityPrices)
         {
-            if (!ExistCityAndCompany(cityPrices))
-                return NotFound();
+            try
+            {
+                if (!ExistCityAndCompany(cityPrices))
+                    return NotFound();
 
-            var cityPricesEnity = GetCityPrices(cityPrices);
-            _context.CityPrice.AddRange(cityPricesEnity);
+                var cityPricesEnity = GetCityPrices(cityPrices);
+                _context.CityPrice.AddRange(cityPricesEnity);
 
-            if (await _context.SaveChangesAsync() > 0)
-                return Created("", cityPrices);
+                if (await _context.SaveChangesAsync() > 0)
+                    return Created("", cityPrices);
 
-            return BadRequest();
-
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(404);
+            }
         }
 
         private bool ExistCityAndCompany(IEnumerable<CityPriceDTO> cityPrices)
@@ -192,34 +242,54 @@ namespace DevInSales.Controllers
 
         [HttpDelete]
         [Route("city/{cityPriceId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCityPrice(int cityPriceId)
         {
-            var cityPrice = await _context.CityPrice.FindAsync(cityPriceId);
-            if (cityPrice == null)
-                return NotFound();
+            try
+            {
+                var cityPrice = await _context.CityPrice.FindAsync(cityPriceId);
+                if (cityPrice == null)
+                    return NotFound();
 
-            _context.CityPrice.Remove(cityPrice);
+                _context.CityPrice.Remove(cityPrice);
 
-            if ((await _context.SaveChangesAsync()) > 0)
-                return NoContent();
+                if ((await _context.SaveChangesAsync()) > 0)
+                    return NoContent();
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete]
         [Route("state/{statePriceId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteStatePrice(int statePriceId)
         {
-            var statePrice = await _context.StatePrice.FindAsync(statePriceId);
-            if (statePrice == null)
-                return NotFound();
+            try
+            {
+                var statePrice = await _context.StatePrice.FindAsync(statePriceId);
+                if (statePrice == null)
+                    return NotFound();
 
-            _context.StatePrice.Remove(statePrice);
+                _context.StatePrice.Remove(statePrice);
 
-            if ((await _context.SaveChangesAsync()) > 0)
-                return NoContent();
+                if ((await _context.SaveChangesAsync()) > 0)
+                    return NoContent();
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
