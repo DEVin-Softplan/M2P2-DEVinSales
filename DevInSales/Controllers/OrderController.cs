@@ -80,12 +80,12 @@ namespace DevInSales.Controllers
             }
         }
         /// <summary>
-        /// Atualiza a quantidade do item de venda
+        /// Atualiza o preço do item de venda
         /// </summary>
-        /// <param name="order_id">Filtra pelo Id do pedido</param>
-        /// <param name="product_id">Filtra pelo Id do produto</param>
-        /// <param name="price">Atualiza a quantidade</param>
-        /// <returns>Atualiza a quantidade do item de venda</returns>
+        /// <param name="order_id">Id do pedido</param>
+        /// <param name="product_id">Id do produto</param>
+        /// <param name="price">Novo preço</param>
+        /// <returns>Atualiza o preço do item de venda</returns>
         /// <response code="204">Registro atualizado.</response>
         /// <response code="400">Requisição incorreta.</response>
         /// <response code="404">Registro não encontrado.</response>
