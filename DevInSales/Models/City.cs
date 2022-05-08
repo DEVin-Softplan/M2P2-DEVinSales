@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DevInSales.Models
 {
-    public class City
+    public class  City
     {
         [Key]
         public int Id { get; set; }
