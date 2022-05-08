@@ -69,7 +69,7 @@ namespace DevInSales.Controllers
         /// </summary>
         /// <param name="requisicao">Representa as informações do novo Produto.</param>
         /// <returns>Retorna o novo Produto cadastrado.</returns>
-        /// <response code="201">Insercao realizada com sucesso.</response>
+        /// <response code="201">Inserção realizada com sucesso.</response>
         /// <response code="400">Produto com mesmo nome já cadastrado, ou preço sugerido menor ou igual à 0.</response>
         /// <response code="404">Produto não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante o cadastro.</response>
@@ -78,21 +78,21 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Product>> CreateProduct([FromBody] ProductPostAndPutDTO requisicao)
+        public async Task<ActionResult<Product>> PostProduct([FromBody] ProductPostAndPutDTO product)
         {
-            bool isProductExistente = _sqlContext.Product.Any(product => product.Name == requisicao.Name);
-            
-            if (isProductExistente)
-                return BadRequest("O nome do produto já existe.");
+            bool productNameExists = _sqlContext.Product.Any(x => x.Name == product.Name);
 
-            if (requisicao.Suggested_Price <= 0)
+            if (productNameExists)
+                return BadRequest("Já existe um produto com este nome.");
+
+            if (product.Suggested_Price <= 0)
                 return BadRequest("O preço sugerido não pode ser menor ou igual a 0.");
 
-            var newProduct = ProductPostAndPutDTO.ConverterParaEntidade(requisicao);
+            var newProduct = ProductPostAndPutDTO.ConverterParaEntidade(product);
             _sqlContext.Product.Add(newProduct);
             await _sqlContext.SaveChangesAsync();
 
-            return CreatedAtAction("Create", new { id = newProduct.Id }, newProduct);
+            return CreatedAtAction("PostProduct", new { id = newProduct.Id }, newProduct);
         }
 
         /// <summary>
@@ -110,24 +110,24 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Product>> PutProduct(int id, ProductPostAndPutDTO requisicao)
+        public async Task<ActionResult<Product>> PutProduct(int id, ProductPostAndPutDTO product)
         {
-            bool productIdExists = _sqlContext.Product.Any(product => product.Id == id);
-            bool productNameExists = _sqlContext.Product.Any(product => product.Name == requisicao.Name);
+            bool productIdExists = _sqlContext.Product.Any(x => x.Id == id);
+            bool productNameExists = _sqlContext.Product.Any(x => x.Name == product.Name);
 
             if (!productIdExists)
-                return NotFound("O produto não existe.");
+                return NotFound("Não existe um produto com esta Id.");
 
             if (productNameExists)
-                return BadRequest("Já existeu um produto com este nome.");
+                return BadRequest("Já existe um produto com este nome.");
 
-            if (requisicao.Suggested_Price <= 0)
+            if (product.Suggested_Price <= 0)
                 return BadRequest("O preço sugerido não pode ser menor ou igual a 0.");
 
-            if (requisicao.Name == null || requisicao.Suggested_Price == null)
+            if (product.Name == null || product.Suggested_Price == null)
                 return BadRequest("Nome ou Preço Sugerido são Nulos.");
 
-            var newProduct = ProductPostAndPutDTO.ConverterParaEntidade(requisicao, id);
+            var newProduct = ProductPostAndPutDTO.ConverterParaEntidade(product, id);
             _sqlContext.Entry(newProduct).State = EntityState.Modified;
 
             try
@@ -163,35 +163,56 @@ namespace DevInSales.Controllers
         /// <response code="204">Sem nenhum retorno.</response>
         /// <response code="400">Erro ao fazer a Request.</response>
         /// <response code="404">produto inexistente</response>
+
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchProduct(JsonPatchDocument productModel, int id)
+        public async Task<ActionResult<Product>> PatchProduct(int id, ProductPatchDTO productModel)
         {
             var product = await _sqlContext.Product.FindAsync(id);
 
+            bool productNameExists = _sqlContext.Product.Any(x => x.Name == productModel.Name);
+
+
             if (product == null)
             {
-                return StatusCode(404);
+                return StatusCode(400);
+            }
+            if (productModel.Name == null & productModel.Suggested_Price == null)
+            {
+                return StatusCode(400);
+            }
+            if (string.IsNullOrWhiteSpace(productModel.Name))
+            {
+                productModel.Name = product.Name;
+            }
+            if (productNameExists)
+            {
+                return StatusCode(400);
+            }
+            if (productModel.Suggested_Price == null)
+            {
+                productModel.Suggested_Price = product.Suggested_Price;
+            }
+            if (productModel.Suggested_Price <= 0)
+            {
+                return StatusCode(400);
             }
 
-            if (product != null)
-            {
-                productModel.ApplyTo(product);
-                if (string.IsNullOrWhiteSpace(product.Name))
-                {
-                    return StatusCode(404);
-                }
-                if (product.Suggested_Price <= 0)
-                {
-                    return StatusCode(404);
-                }
-                await _sqlContext.SaveChangesAsync();
-                return StatusCode(204);
-            }
-            return StatusCode(200);
+
+            var newProduct = ProductPatchDTO.Converter(productModel, id);
+            product.Name = newProduct.Name;
+            product.Suggested_Price = newProduct.Suggested_Price;
+            _sqlContext.Entry(product).State = EntityState.Modified;
+
+
+            await _sqlContext.SaveChangesAsync();
+
+
+            return StatusCode(204);
         }
 
         /// <summary>
