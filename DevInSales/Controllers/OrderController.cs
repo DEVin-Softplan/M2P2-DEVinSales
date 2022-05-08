@@ -3,6 +3,7 @@ using DevInSales.DTOs;
 using DevInSales.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DevInSales.Controllers
 {
@@ -184,6 +185,49 @@ namespace DevInSales.Controllers
 
             }
         }
+        [HttpPost("/user/{user_id}/order")]
+        public async Task<ActionResult<Order>> PostAddress(OrderCreateDTO order, int city_id)
+        {
+            if(order.SellerId == 0) { return BadRequest(); }
+            if(order.UserId == 0) { return BadRequest(); }
+
+            var newOrder = new Order
+            {
+                UserId = order.UserId,
+                SellerId = order.SellerId,
+                Date_Order = order.Date_Order,
+            };
+
+            HttpClient client;
+
+            client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7080/");
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+            System.Net.Http.HttpResponseMessage response = client.GetAsync($"/api/freight/{city_id}").Result;
+
+            var shipping_companies = response.Content.ReadFromJsonAsync<IList<FreightResult>>().Result;
+
+            if (shipping_companies == null) return NotFound();
+
+            shipping_companies.OrderBy(x => x.TotalFreight).ToList();
+            
+            
+            var shipping_company = shipping_companies.First();
+            
+
+
+            newOrder.Shipping_Company_Price = shipping_company.TotalFreight;
+            newOrder.Shipping_Company = shipping_company.NameCompany;
+            
+
+            _context.Order.Add(newOrder);
+            await _context.SaveChangesAsync();
+
+            return Created("criado com sucesso", order.UserId);
+        }
+
+
         [HttpPost("order/{order_id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
