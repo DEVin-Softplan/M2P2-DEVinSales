@@ -200,7 +200,7 @@ namespace DevInSales.Controllers
         /// <param name="product_id">O Id do produto para ser deletado.</param>
         /// <returns>Deleta o produto conforme o Id informado.</returns>
         /// <response code="200">Produto deletado.</response>
-        /// <response code="400">Produto deletado.</response>
+        /// <response code="400">Produto com Ordem de Produto Vinculada.</response>
         /// <response code="404">Produto não encontrado.</response>
         [HttpDelete("{product_id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
