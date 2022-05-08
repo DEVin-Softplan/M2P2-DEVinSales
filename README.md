@@ -6,18 +6,6 @@
    <p>DEVinSales - API RESTful de Vendas</p>
 </h1>
 
-<section align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/tgmarinho/README-ecoleta?color=%2304D361">
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/tgmarinho/README-ecoleta">  
-  <a href="https://github.com/tgmarinho/README-ecoleta/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/tgmarinho/README-ecoleta">
-  </a>    
-   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
-   <a href="https://github.com/tgmarinho/README-ecoleta/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/tgmarinho/README-ecoleta?style=social">
-  </a>
-</section><br>
-
 <h4 align="center"> 
 	🚧  Projeto em desenvolvimento 🚧
 </h4>
@@ -30,8 +18,7 @@
  <a href="#-como-executar-o-projeto">Como executar</a> • 
  <a href="#-tecnologias">Tecnologias</a> • 
  <a href="#-contribuidores">Contribuidores</a> • 
- <a href="#-autores">Autores</a> • 
- <a href="#user-content--licença">Licença</a>
+ <a href="#-autores">Autores</a> •  
 </p>
 <br>
 
@@ -269,6 +256,12 @@ As seguintes ferramentas foram usadas na construção do projeto:
          <sub><b>Guilherme Cittadella</b></sub>
          <br/>
       </td>
+      <td align="center">
+         <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/elopes89" width="100px;" alt="avatar Guilherme"/><br />
+         <sub><b>Emanuel Lopes</b></sub>
+         <br/>
+      </td>
+	   
    </tr>
 </table>
 
@@ -300,9 +293,3 @@ As seguintes ferramentas foram usadas na construção do projeto:
       </td>
    </tr>
 </table>
-
-<br>
-
-## 📝 Licença
-
-Este projeto esta sobe a licença [MIT](./LICENSE).
