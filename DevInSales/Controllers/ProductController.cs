@@ -1,4 +1,4 @@
-﻿using DevInSales.Context;
+using DevInSales.Context;
 using DevInSales.DTOs;
 using DevInSales.Models;
 using DevInSales.Context;
@@ -215,6 +215,31 @@ namespace DevInSales.Controllers
             return StatusCode(204);
         }
 
-        
+        /// <summary>
+        /// Deleta um produto conforme o Id Informado.
+        /// </summary>
+        /// <param name="product_id">O Id do produto para ser deletado.</param>
+        /// <returns>Deleta o produto conforme o Id informado.</returns>
+        /// <response code="200">Produto deletado.</response>
+        /// <response code="400">Produto com Ordem de Produto Vinculada.</response>
+        /// <response code="404">Produto não encontrado.</response>
+        [HttpDelete("{product_id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteProduct([FromRoute] int product_id)
+        {
+            var productIdEncontrado = await _sqlContext.Product.FindAsync(product_id);
+            if (productIdEncontrado == null)
+                return NotFound($"O Id de Produto de número {product_id} não foi encontrado.");
+
+            bool haveOrderProduct = await _sqlContext.Order_Product.AnyAsync(op => op.Products.Id == product_id);
+            if (haveOrderProduct)
+                return BadRequest($"O Id de Produto de número {product_id} possui uma Ordem de Produto vinculada, por este motivo não pode ser deletado.");
+
+            _sqlContext.Product.Remove(productIdEncontrado);
+            _sqlContext.SaveChanges();
+            return Ok(product_id);
+        }
     }
 }
