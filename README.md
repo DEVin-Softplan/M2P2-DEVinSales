@@ -287,7 +287,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
          <sub><b>CTHOR</b></sub>
       </td>
       <td align="center">
-         <img src="" width="100px;" alt="logo squad ROMEU"/>
+         <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHU8TdxmLZ7dw/profile-displayphoto-shrink_800_800/0/1569986324319?e=1657756800&v=beta&t=xpYPvvMJkKLLkS81EHGc6f3FQQUXQ9rT65UDVhdjP2c" width="100px;" alt="logo squad ROMEU"/>
          <br/>
          <sub><b>ROMEU</b></sub>
       </td>
