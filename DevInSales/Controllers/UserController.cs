@@ -86,9 +86,20 @@ namespace DevInSales.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> Create([FromBody] UserCreateDTO requisicao)
         {
-            if (!isDataNascimentoValida(requisicao.BirthDate))
+            try
             {
-                return BadRequest("O usuário deve ser maior de 18 anos.");
+                var dataNascimento = DateTime.ParseExact(requisicao.BirthDate, "dd/MM/yyyy", new CultureInfo("pt-BR"));
+                if (!isMaiorDeIdade(dataNascimento))
+                {
+                    return BadRequest("O usuário deve ser maior de 18 anos.");
+                }
+            } catch (Exception ex) {
+                return BadRequest("Data inválida.");
+            }
+
+            if (!isSenhaValida(requisicao.Password))
+            {
+                return BadRequest("Senha inválida. Deve-se ter pelo menos um caractere diferente dos demais.");
             }
 
             bool isEmailExistente = _context.User.Any(user => user.Email == requisicao.Email);
@@ -130,14 +141,30 @@ namespace DevInSales.Controllers
             return Ok(user_id);
         }
 
-        private bool isDataNascimentoValida(string data)
+        private bool isMaiorDeIdade(DateTime dataNascimento)
         {
-            DateTime dataNascimento = DateTime.ParseExact(data, "dd/MM/yyyy", new CultureInfo("pt-BR"));
             DateTime diaAtual = DateTime.Today;
             int idade = diaAtual.Year - dataNascimento.Year;
+            if (dataNascimento > diaAtual.AddYears(-idade))
+            {
+                idade--;
+            }
             if (idade >= 18)
             {
                 return true;
+            }
+            return false;
+        }
+
+        private bool isSenhaValida(string password)
+        {
+            var primeiraLetra = password.First();
+            foreach(char letra in password)
+            {
+                if (letra != primeiraLetra)
+                {
+                    return true;
+                }
             }
             return false;
         }
