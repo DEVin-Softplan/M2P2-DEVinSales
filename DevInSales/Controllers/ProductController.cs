@@ -233,7 +233,7 @@ namespace DevInSales.Controllers
             if (productIdEncontrado == null)
                 return NotFound($"O Id de Produto de número {product_id} não foi encontrado.");
 
-            bool haveOrderProduct = await _sqlContext.Order_Product.AnyAsync(op => op.Products.Id == product_id);
+            bool haveOrderProduct = await _sqlContext.Order_Product.AnyAsync(op => op.Product.Id == product_id);
             if (haveOrderProduct)
                 return BadRequest($"O Id de Produto de número {product_id} possui uma Ordem de Produto vinculada, por este motivo não pode ser deletado.");
 
