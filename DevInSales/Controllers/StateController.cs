@@ -182,13 +182,41 @@ namespace DevInSales.Controllers
 
         // POST: api/State
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<State>> PostState(State state)
+        [HttpPost("{state_id}/city")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<State>> PostState(City city, int state_id)
         {
-            _context.State.Add(state);
-            await _context.SaveChangesAsync();
+            var state_findId = await _context.State.FindAsync(state_id);
+            var state_findName = await _context.City.FirstOrDefaultAsync(x => x.Name == city.Name && x.State_Id == state_id);
 
-            return CreatedAtAction("GetState", new { id = state.Id }, state);
+            //Caso não exista nenhum registro de Estado
+            if (state_findId == null)
+            {
+                return NotFound();
+            }
+
+            //Caso exista alguma outra cidade criada nesse estado com o mesmo nome enviado
+            if (state_findName != null)
+            {
+                return BadRequest();
+            }
+
+            //Criado com sucesso!
+            if (city.Name != "")
+            {
+                city.State_Id = state_id;
+
+                _context.City.Add(city);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetState", new { id = city.Id, name = city.Name, state_id = city.State_Id }, city);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost("{state_id}/city/{city_id}/address")]
@@ -199,7 +227,7 @@ namespace DevInSales.Controllers
         {
             var state_findId = await _context.State.FindAsync(state_id);
             var city_findId = await _context.City.FindAsync(city_id);
-            
+
             var city_findCityState = await _context.City.FirstOrDefaultAsync(x => x.State_Id == state_id && x.Id == city_id);
 
             //Caso o state_id seja referente a um estado inexistente ou caso city_id seja de uma
@@ -216,7 +244,7 @@ namespace DevInSales.Controllers
             }
 
             //Criado com sucesso!
-            if (address.Street != "" && address.Number != 0 && 
+            if (address.Street != "" && address.Number != 0 &&
                 address.CEP != "")
             {
                 address.City_Id = city_id;
@@ -224,9 +252,14 @@ namespace DevInSales.Controllers
                 _context.Address.Add(address);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetState", new { id = address.Id, 
-                    city_id = address.City_Id,  street = address.Street, cep = address.CEP,
-                number = address.Number}, address);
+                return CreatedAtAction("GetState", new
+                {
+                    id = address.Id,
+                    city_id = address.City_Id,
+                    street = address.Street,
+                    cep = address.CEP,
+                    number = address.Number
+                }, address);
             }
             else
             {
