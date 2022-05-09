@@ -18,11 +18,11 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Buscar registros de delivery com id do endereço e id da order
         /// </summary>
-        /// <param name="address_id"></param>
-        /// <param name="order_id"></param>
-        /// <returns></returns>
+        /// <param name="address_id">Filtra pelo id do endereço</param>
+        /// <param name="order_id">Filtra pelo id da order</param>
+        /// <returns>Buscar registros de delivery com id do endereço e id da order</returns>
         /// <response code="200"></response>
         /// <response code="204"></response>
         /// <response code="500"></response>
@@ -59,11 +59,11 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Atualiza data de entrega e status do delivery
         /// </summary>
-        /// <param name="delivery_id"></param>
-        /// <param name="delivery_date"></param>
-        /// <returns></returns>
+        /// <param name="delivery_id">Filtra pelo id da delivery</param>
+        /// <param name="delivery_date">Insere a data de entrega</param>
+        /// <returns>Atualiza data de entrega e status do delivery</returns>
         /// <response code="200"></response>
         /// <response code="404"></response>
         /// <response code="500"></response>
@@ -102,11 +102,11 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Cria uma delivery
         /// </summary>
-        /// <param name="order_id"></param>
-        /// <param name="address_id"></param>
-        /// <returns></returns>
+        /// <param name="order_id">Insere a order</param>
+        /// <param name="address_id">Insere o endereco</param>
+        /// <returns>Cria uma delivery</returns>
         /// <response code="200"></response>
         /// <response code="404"></response>
         /// <response code="400"></response>

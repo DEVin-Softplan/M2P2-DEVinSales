@@ -50,10 +50,10 @@ namespace DevInSales.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Busca registros de venda com o Id do vendedor
         /// </summary>
-        /// <param name="user_id"></param>
-        /// <returns></returns>
+        /// <param name="user_id">Filtra pelo Id do vendedor</param>
+        /// <returns>Busca registros de venda com o Id do vendedor</returns>
         /// <response code="200"></response>
         /// <response code="404"></response>
         /// <response code="500"></response>
@@ -85,7 +85,7 @@ namespace DevInSales.Controllers
         /// Atualiza o preço do item de venda
         /// </summary>
         /// <param name="order_id">Id do pedido</param>
-        /// <param name="product_id">Id do produto</param>
+        /// <param name="orderProduct_id">Id do order product</param>
         /// <param name="price">Novo preço</param>
         /// <returns>Atualiza o preço do item de venda</returns>
         /// <response code="204">Registro atualizado.</response>
@@ -97,7 +97,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> PatchPrice(int order_id, int product_id, decimal price)
+        public async Task<ActionResult> PatchPrice(int order_id, int orderProduct_id, decimal price)
         {
 
             if (price <= 0)
@@ -106,7 +106,7 @@ namespace DevInSales.Controllers
             }
 
             var orderDB = await _context.Order.FindAsync(order_id);
-            var orderProductDB = _context.Order_Product.Include(op => op.Product).Where(p => p.Id == product_id).FirstOrDefault();
+            var orderProductDB = _context.Order_Product.Include(op => op.Product).Where(p => p.Id == orderProduct_id).FirstOrDefault();
 
             if (orderDB == null || orderProductDB == null)
             {
@@ -124,7 +124,7 @@ namespace DevInSales.Controllers
         /// Atualiza a quantidade do item de venda
         /// </summary>
         /// <param name="order_id">Filtra pelo Id do pedido</param>
-        /// <param name="product_id">Filtra pelo Id do produto</param>
+        /// <param name="orderProduct_id">Filtra pelo Id do order product</param>
         /// <param name="amount">Atualiza a quantidade</param>
         /// <returns>Atualiza a quantidade do item de venda</returns>
         /// <response code="204">Registro atualizado.</response>
@@ -136,7 +136,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> PatchAmount(int order_id, int product_id, int amount)
+        public async Task<ActionResult> PatchAmount(int order_id, int orderProduct_id, int amount)
         {
            
                 if (amount <= 0)
@@ -145,7 +145,7 @@ namespace DevInSales.Controllers
                 }
 
                 var orderDB = await _context.Order.FindAsync(order_id);
-                var orderProductDB = _context.Order_Product.Include(op => op.Product).Where(p => p.Id == product_id).FirstOrDefault();
+                var orderProductDB = _context.Order_Product.Include(op => op.Product).Where(p => p.Id == orderProduct_id).FirstOrDefault();
 
                 if (orderDB == null || orderProductDB == null)
                 {
@@ -159,24 +159,29 @@ namespace DevInSales.Controllers
                 return NoContent();
            
         }
+
+        /// <summary>
+        /// Busca registros de venda com o Id do order product
+        /// </summary>
+        /// <param name="orderProduct_id">Filtra pelo Id do order product</param>
+        /// <returns>Busca registros de venda com o Id do order product</returns>
+        /// <response code="204">Registro atualizado.</response>
+        /// <response code="400">Requisição incorreta.</response>
+        /// <response code="404">Registro não encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpGet("order/{order_id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Order>> GetOrderId(int order_id)
+        public async Task<ActionResult<Order>> GetOrderId(int orderProduct_id)
         {
             try
             {
-                List<Order> listaVendas = _context.Order
-                    .Include(x => x.User)
-                    .Include(x => x.Seller)
-                    .Include(x => x.Date_Order)
-                    .ToList()
-                    .FindAll(x => x.Id == order_id);
+                var orderProduct = _context.Order_Product.Include(x => x.Order).Include(x => x.Product).FirstOrDefault(x => x.Id == orderProduct_id);
 
-                if (order_id.ToString() == null) return StatusCode(404);
+                if (orderProduct_id.ToString() == null) return StatusCode(404);
 
-                return Ok(listaVendas);
+                return Ok(orderProduct);
 
             }
             catch
@@ -185,8 +190,21 @@ namespace DevInSales.Controllers
 
             }
         }
+
+        /// <summary>
+        /// Cria uma order
+        /// </summary>
+        /// <param name="city_id">Insere o id da cidade/param>
+        /// <returns>Cria uma order product</returns>
+        /// <response code="204">Registro atualizado.</response>
+        /// <response code="400">Requisição incorreta.</response>
+        /// <response code="404">Registro não encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpPost("/user/{user_id}/order")]
-        public async Task<ActionResult<Order>> PostAddress(OrderCreateDTO order, int city_id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Order>> PostOrder(OrderCreateDTO order, int city_id)
         {
             if(order.SellerId == 0) { return BadRequest(); }
             if(order.UserId == 0) { return BadRequest(); }
@@ -218,7 +236,7 @@ namespace DevInSales.Controllers
 
 
             newOrder.Shipping_Company_Price = shipping_company.TotalFreight;
-            newOrder.Shipping_Company.Name = shipping_company.NameCompany;
+            newOrder.Shipping_Company = shipping_company.NameCompany;
 
 
             _context.Order.Add(newOrder);
@@ -228,6 +246,15 @@ namespace DevInSales.Controllers
         }
 
 
+        /// <summary>
+        /// Cria uma order product
+        /// </summary>
+        /// <param name="order_id">Insere o id da order/param>
+        /// <returns>Cria uma order product</returns>
+        /// <response code="204">Registro atualizado.</response>
+        /// <response code="400">Requisição incorreta.</response>
+        /// <response code="404">Registro não encontrado.</response>
+        /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpPost("order/{order_id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
