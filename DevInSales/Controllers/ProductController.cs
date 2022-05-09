@@ -220,11 +220,11 @@ namespace DevInSales.Controllers
         /// </summary>
         /// <param name="product_id">O Id do produto para ser deletado.</param>
         /// <returns>Deleta o produto conforme o Id informado.</returns>
-        /// <response code="200">Produto deletado.</response>
+        /// <response code="204">Produto deletado.</response>
         /// <response code="400">Produto com Ordem de Produto Vinculada.</response>
         /// <response code="404">Produto não encontrado.</response>
         [HttpDelete("{product_id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteProduct([FromRoute] int product_id)
@@ -239,7 +239,7 @@ namespace DevInSales.Controllers
 
             _sqlContext.Product.Remove(productIdEncontrado);
             _sqlContext.SaveChanges();
-            return Ok(product_id);
+            return NoContent();
         }
     }
 }
