@@ -218,8 +218,8 @@ namespace DevInSales.Controllers
 
 
             newOrder.Shipping_Company_Price = shipping_company.TotalFreight;
-            newOrder.Shipping_Company = shipping_company.NameCompany;
-            
+            newOrder.Shipping_Company.Name = shipping_company.NameCompany;
+
 
             _context.Order.Add(newOrder);
             await _context.SaveChangesAsync();
