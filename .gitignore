@@ -361,3 +361,7 @@ MigrationBackup/
 /DevInSales/Seeds/CitySeed.csv
 /DevInSales/Migrations/20220429024248_Seeds-City-State.cs
 /DevInSales/Migrations/20220429024248_Seeds-City-State.Designer.cs
+
+/DevInSales/appsettings.json
+/DevInSales/Migrations/20220508202855_teste.cs
+/DevInSales/Migrations/20220508202855_teste.Designer.cs

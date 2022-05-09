@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DevInSales.Migrations
 {
     [DbContext(typeof(SqlContext))]
-    [Migration("20220501231125_CorrigindoColunaPrecoTabelaProduto")]
-    partial class CorrigindoColunaPrecoTabelaProduto
+    [Migration("20220506081759_initialcreate")]
+    partial class initialcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33574,6 +33574,193 @@ namespace DevInSales.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DevInSales.Models.CityPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal")
+                        .HasColumnName("base_price");
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShippingCompanyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("ShippingCompanyId");
+
+                    b.ToTable("CityPrice");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BasePrice = 10m,
+                            CityId = 1,
+                            ShippingCompanyId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BasePrice = 20m,
+                            CityId = 1,
+                            ShippingCompanyId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BasePrice = 30m,
+                            CityId = 1,
+                            ShippingCompanyId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BasePrice = 21m,
+                            CityId = 2,
+                            ShippingCompanyId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BasePrice = 22m,
+                            CityId = 2,
+                            ShippingCompanyId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BasePrice = 23m,
+                            CityId = 2,
+                            ShippingCompanyId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BasePrice = 31m,
+                            CityId = 3,
+                            ShippingCompanyId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BasePrice = 32m,
+                            CityId = 3,
+                            ShippingCompanyId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BasePrice = 33m,
+                            CityId = 3,
+                            ShippingCompanyId = 3
+                        });
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Delivery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Delivery_Date")
+                        .HasColumnType("date")
+                        .HasColumnName("delivery_Date");
+
+                    b.Property<DateTime>("Delivery_Forecast")
+                        .HasColumnType("date")
+                        .HasColumnName("delivery_Forecast");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Delivery");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date_Order")
+                        .HasColumnType("date")
+                        .HasColumnName("date_order");
+
+                    b.Property<int?>("OrderProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Shipping_Company_Price")
+                        .HasColumnType("decimal")
+                        .HasColumnName("shipping_company_price");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderProductId");
+
+                    b.HasIndex("SellerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int")
+                        .HasColumnName("amount");
+
+                    b.Property<decimal>("Unit_Price")
+                        .HasColumnType("decimal")
+                        .HasColumnName("unit_price");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Order_Product");
+                });
+
             modelBuilder.Entity("DevInSales.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -33591,6 +33778,9 @@ namespace DevInSales.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("name");
 
+                    b.Property<int?>("OrderProductId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Suggested_Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)")
@@ -33600,7 +33790,81 @@ namespace DevInSales.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("OrderProductId");
+
                     b.ToTable("Product");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "Curso de C Sharp",
+                            Suggested_Price = 259.99m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "Curso de Java",
+                            Suggested_Price = 249.99m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Name = "Curso de Delphi",
+                            Suggested_Price = 189.99m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Name = "Curso de React",
+                            Suggested_Price = 289.99m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Name = "Curso de HTML5 e CSS3",
+                            Suggested_Price = 139.99m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 1,
+                            Name = "Curso de JavaScript",
+                            Suggested_Price = 219.99m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 1,
+                            Name = "Curso de Angular",
+                            Suggested_Price = 199.99m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 1,
+                            Name = "Curso de Ruby",
+                            Suggested_Price = 319.99m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 1,
+                            Name = "Curso de Kotlin",
+                            Suggested_Price = 289.99m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 1,
+                            Name = "Curso de Python",
+                            Suggested_Price = 229.99m
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.Profile", b =>
@@ -33626,6 +33890,43 @@ namespace DevInSales.Migrations
                         {
                             Id = 1,
                             Name = "Cliente"
+                        });
+                });
+
+            modelBuilder.Entity("DevInSales.Models.ShippingCompany", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShippingCompany");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Rapidex"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Veloz e Feroz"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Além Paraíba"
                         });
                 });
 
@@ -33814,6 +34115,99 @@ namespace DevInSales.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DevInSales.Models.StatePrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal")
+                        .HasColumnName("base_price");
+
+                    b.Property<int>("ShippingCompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShippingCompanyId");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("StatePrice");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BasePrice = 17m,
+                            ShippingCompanyId = 1,
+                            StateId = 11
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BasePrice = 20m,
+                            ShippingCompanyId = 1,
+                            StateId = 22
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BasePrice = 30m,
+                            ShippingCompanyId = 1,
+                            StateId = 33
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BasePrice = 19m,
+                            ShippingCompanyId = 2,
+                            StateId = 11
+                        },
+                        new
+                        {
+                            Id = 5,
+                            BasePrice = 29m,
+                            ShippingCompanyId = 2,
+                            StateId = 22
+                        },
+                        new
+                        {
+                            Id = 6,
+                            BasePrice = 37m,
+                            ShippingCompanyId = 2,
+                            StateId = 33
+                        },
+                        new
+                        {
+                            Id = 7,
+                            BasePrice = 10m,
+                            ShippingCompanyId = 3,
+                            StateId = 11
+                        },
+                        new
+                        {
+                            Id = 8,
+                            BasePrice = 35m,
+                            ShippingCompanyId = 3,
+                            StateId = 22
+                        },
+                        new
+                        {
+                            Id = 9,
+                            BasePrice = 33m,
+                            ShippingCompanyId = 3,
+                            StateId = 33
+                        });
+                });
+
             modelBuilder.Entity("DevInSales.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -33850,6 +34244,44 @@ namespace DevInSales.Migrations
                     b.HasIndex("ProfileId");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BirthDate = new DateTime(2000, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "romeu@lenda.com",
+                            Name = "Romeu A Lenda",
+                            Password = "romeu123@",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = new DateTime(1974, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "gustavo_levi_ferreira@gmail.com",
+                            Name = "Gustavo Levi Ferreira",
+                            Password = "!romeu321",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BirthDate = new DateTime(1986, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "lemosluiz@gmail.com",
+                            Name = "Henrique Luiz Lemos",
+                            Password = "lemos$2022",
+                            ProfileId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BirthDate = new DateTime(1996, 8, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "tomas.paulo.aragao@hotmail.com",
+                            Name = "Tomás Paulo Aragão",
+                            Password = "$tpa1996",
+                            ProfileId = 1
+                        });
                 });
 
             modelBuilder.Entity("DevInSales.Models.Address", b =>
@@ -33874,6 +34306,67 @@ namespace DevInSales.Migrations
                     b.Navigation("State");
                 });
 
+            modelBuilder.Entity("DevInSales.Models.CityPrice", b =>
+                {
+                    b.HasOne("DevInSales.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DevInSales.Models.ShippingCompany", "ShippingCompany")
+                        .WithMany()
+                        .HasForeignKey("ShippingCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+
+                    b.Navigation("ShippingCompany");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Delivery", b =>
+                {
+                    b.HasOne("DevInSales.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DevInSales.Models.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.Order", b =>
+                {
+                    b.HasOne("DevInSales.Models.OrderProduct", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("OrderProductId");
+
+                    b.HasOne("DevInSales.Models.User", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DevInSales.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Seller");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DevInSales.Models.Product", b =>
                 {
                     b.HasOne("DevInSales.Models.Category", "Category")
@@ -33882,7 +34375,30 @@ namespace DevInSales.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DevInSales.Models.OrderProduct", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderProductId");
+
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.StatePrice", b =>
+                {
+                    b.HasOne("DevInSales.Models.ShippingCompany", "ShippingCompany")
+                        .WithMany()
+                        .HasForeignKey("ShippingCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DevInSales.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShippingCompany");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("DevInSales.Models.User", b =>
@@ -33899,6 +34415,13 @@ namespace DevInSales.Migrations
             modelBuilder.Entity("DevInSales.Models.Category", b =>
                 {
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("DevInSales.Models.OrderProduct", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
