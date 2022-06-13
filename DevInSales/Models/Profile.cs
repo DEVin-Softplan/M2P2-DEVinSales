@@ -1,3 +1,4 @@
+using DevInSales.Security;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DevInSales.Models;
@@ -9,6 +10,9 @@ public class Profile
     [Column("name")]
     public string Name{ get; set; }
 
+    [Column("type")]
+    public EProfileType Type { get; set; }
+
     public Profile()
     {
     }
@@ -17,5 +21,12 @@ public class Profile
     {
         Id = id;
         Name = name;
+    }
+
+    public Profile(int id, string name, EProfileType type)
+    {
+        Id = id;
+        Name = name;
+        Type = type;
     }
 }
