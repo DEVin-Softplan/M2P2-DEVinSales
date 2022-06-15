@@ -1,6 +1,7 @@
 ﻿using DevInSales.Context;
 using DevInSales.DTOs;
 using DevInSales.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace DevInSales.Controllers
 {
     [Route("api/order")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly SqlContext _context;
@@ -30,6 +32,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente, Usuario")]
         public async Task<ActionResult<ICollection<Order>>> GetUserId(int user_id)
         {
             try
@@ -61,6 +64,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente, Usuario")]
         public async Task<ActionResult<ICollection<Order>>> GetBuyId(int user_id)
         {
             try
@@ -97,6 +101,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult> PatchPrice(int order_id, int orderProduct_id, decimal price)
         {
 
@@ -136,6 +141,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult> PatchAmount(int order_id, int orderProduct_id, int amount)
         {
            
@@ -173,6 +179,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente, Usuario")]
         public async Task<ActionResult<Order>> GetOrderId(int orderProduct_id)
         {
             try
@@ -204,6 +211,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult<Order>> PostOrder(OrderCreateDTO order, int city_id)
         {
             if(order.SellerId == 0) { return BadRequest(); }
@@ -260,7 +268,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult<OrderProduct>> PostOrderProduct (int order_id, [FromBody] OrderProductCreateDTO orderProductDTO)
         {
             try

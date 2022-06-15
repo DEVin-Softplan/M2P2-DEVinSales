@@ -1,5 +1,6 @@
 ﻿using DevInSales.Context;
 using DevInSales.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,7 @@ namespace DevInSales.Controllers
 {
     [Route("api/delivery")]
     [ApiController]
+    [Authorize]
     public class DeliveryController : ControllerBase
     {
 
@@ -30,6 +32,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente, Usuario")]
         public async Task<ActionResult<ICollection<Delivery>>> GetDelivery(int address_id, int order_id)
         {
             var deliverys = _context.Delivery.Include(x => x.Order).Include(x => x.Address).ToList();
@@ -72,6 +75,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult> PatchDelivery(int delivery_id, DateTime delivery_date)
         {
             try
@@ -116,6 +120,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult> PostDelivery(int order_id, int address_id, DateTime delivery_forecast)
         {
             try

@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DevInSales.Controllers
 {
     [Route("api/user")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly SqlContext _context;
@@ -35,6 +37,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
+        [Authorize(Roles = "Admin, Gerente, Usuario")]
         public async Task<ActionResult<IEnumerable<UserResponseDTO>>> Get(
             [FromQuery] string? name, [FromQuery] string? birth_date_min, [FromQuery] string? birth_date_max)
         {
@@ -84,6 +87,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
+        [Authorize(Roles = "Admin, Gerente")]
         public async Task<ActionResult<User>> Create([FromBody] UserCreateDTO requisicao)
         {
             try
@@ -131,6 +135,7 @@ namespace DevInSales.Controllers
         [HttpDelete("{user_id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser([FromRoute] int user_id)
         {
             var userIdEncontrado = await _context.User.FindAsync(user_id);
