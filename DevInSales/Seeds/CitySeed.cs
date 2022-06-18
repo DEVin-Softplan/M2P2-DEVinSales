@@ -8,7 +8,7 @@ namespace DevInSales.Seeds
         public static List<City> Seed()
         {
             string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string sFile = System.IO.Path.Combine(sCurrentDirectory, @"..\..\..\Seeds\CitySeed.csv");
+            string sFile = System.IO.Path.Combine(sCurrentDirectory, @"..\..\..\..\DevInSales\Seeds\CitySeed.csv");
             
             string[] text = System.IO.File.ReadAllLines(sFile);   
             List<City> list = new List<City>();
