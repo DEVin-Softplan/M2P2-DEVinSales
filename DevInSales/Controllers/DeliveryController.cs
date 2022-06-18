@@ -130,17 +130,17 @@ namespace DevInSales.Controllers
 
                 if (orderDB == null || addressDB == null)
                 {
-                    return StatusCode(400);
+                    return StatusCode(404);
                 }
 
                 if (address_id.ToString() == null)
                 {
-                    return StatusCode(400);
+                    return StatusCode(404);
                 }
 
                 if (delivery_forecast < DateTime.Now)
                 {
-                    return StatusCode(400);
+                    return StatusCode(404);
                 }
 
                 var delivery = new Delivery { Address = addressDB, Delivery_Date = null, Delivery_Forecast = delivery_forecast, Order = orderDB, Status = Enums.StatusEnum.PedidoEmTransporte };
