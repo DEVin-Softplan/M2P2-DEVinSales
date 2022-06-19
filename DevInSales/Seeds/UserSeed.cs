@@ -11,7 +11,9 @@ namespace DevInSales.Seeds
             BirthDate = new DateTime(2000, 02, 01),
             Email = "romeu@lenda.com",
             Password = "romeu123@",
-            ProfileId = 1
+            ProfileId = 1,
+            Role = "Administrador"
+
         }, new User()
         {
             Id = 2,
@@ -19,7 +21,8 @@ namespace DevInSales.Seeds
             BirthDate = new DateTime(1974, 4, 11),
             Email = "gustavo_levi_ferreira@gmail.com",
             Password = "!romeu321",
-            ProfileId = 1
+            ProfileId = 1,
+            Role = "Gerente"
         }, new User()
         {
             Id = 3,
@@ -27,7 +30,8 @@ namespace DevInSales.Seeds
             BirthDate = new DateTime(1986, 3, 14),
             Email = "lemosluiz@gmail.com",
             Password = "lemos$2022",
-            ProfileId = 1
+            ProfileId = 1,
+            Role = "Usuario"
         }, new User()
         {
             Id = 4,
@@ -35,7 +39,8 @@ namespace DevInSales.Seeds
             BirthDate = new DateTime(1996, 8, 21),
             Email = "tomas.paulo.aragao@hotmail.com",
             Password = "$tpa1996",
-            ProfileId = 1
+            ProfileId = 1,
+            Role = "Usuario"
         }
         };
     }
