@@ -1,5 +1,6 @@
 ﻿using DevInSales.Context;
 using DevInSales.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,6 +28,7 @@ namespace DevInSales.Controllers
         /// <response code="204"></response>
         /// <response code="500"></response>
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -68,6 +70,7 @@ namespace DevInSales.Controllers
         /// <response code="404"></response>
         /// <response code="500"></response>
         [HttpPatch]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -112,6 +115,7 @@ namespace DevInSales.Controllers
         /// <response code="400"></response>
         /// <response code="500"></response>
         [HttpPost("order/{order_id}/delivery")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

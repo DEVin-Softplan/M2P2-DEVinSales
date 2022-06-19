@@ -1,6 +1,7 @@
 ﻿using DevInSales.Context;
 using DevInSales.DTOs;
 using DevInSales.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Registro não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpGet("user/{user_id}/order")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -58,6 +60,7 @@ namespace DevInSales.Controllers
         /// <response code="404"></response>
         /// <response code="500"></response>
         [HttpGet("user/{user_id}/buy")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -93,6 +96,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Registro não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpPatch("{order_id}/product/{product_id}/price/{price}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -132,6 +136,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Registro não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpPatch("{order_id}/product/{product_id}/amount/{amount}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -170,6 +175,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Registro não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpGet("order/{order_id}")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -201,6 +207,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Registro não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpPost("/user/{user_id}/order")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -256,6 +263,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Registro não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante a consulta</response>
         [HttpPost("order/{order_id}")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -5,6 +5,7 @@ using DevInSales.Context;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,6 +34,7 @@ namespace DevInSales.Controllers
         /// <response code="204">Sem nenhum retorno.</response>
         /// <response code="400">Erro ao fazer a Request.</response>
         [HttpGet(Name = "GetProduct")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -74,6 +76,7 @@ namespace DevInSales.Controllers
         /// <response code="404">Produto não encontrado.</response>
         /// <response code="500">Ocorreu uma exceção durante o cadastro.</response>
         [HttpPost]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -106,6 +109,7 @@ namespace DevInSales.Controllers
         /// <response code="500">Ocorreu uma exceção durante a atualização.</response>
         /// <returns></returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -170,6 +174,7 @@ namespace DevInSales.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         public async Task<ActionResult<Product>> PatchProduct(int id, ProductPatchDTO productModel)
         {
             var product = await _sqlContext.Product.FindAsync(id);
@@ -224,6 +229,7 @@ namespace DevInSales.Controllers
         /// <response code="400">Produto com Ordem de Produto Vinculada.</response>
         /// <response code="404">Produto não encontrado.</response>
         [HttpDelete("{product_id}")]
+        [Authorize(Roles = "Administrador")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

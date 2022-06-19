@@ -1,6 +1,7 @@
 ﻿using DevInSales.Context;
 using DevInSales.DTOs;
 using DevInSales.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [Route("{cityId:int}")]
         public ActionResult<IList<FreightResult>> GetFreight(int cityId)
         {
@@ -41,6 +43,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [Route("company/name")]
         public async Task<ActionResult<IEnumerable<ShippingCompany>>> GetCompanyByName(string? name)
         {
@@ -57,6 +60,7 @@ namespace DevInSales.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [Route("company/{id:int}")]
         public async Task<ActionResult<ShippingCompany>> GetCompanyById(int id)
         {
@@ -68,6 +72,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [Route("state/{stateId:int}/company/{companyId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -91,6 +96,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [Route("city/{cityId:int}/company/{companyId:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -112,6 +118,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador,Gerente")]
         [Route("state/company")]
         public async Task<ActionResult<List<StatePriceDTO>>> PostStateCompany(IEnumerable<StatePriceDTO> statePrices)
         {
@@ -152,6 +159,8 @@ namespace DevInSales.Controllers
 
         [HttpPost]
         [Route("city/company")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
+
         public async Task<ActionResult<List<CityPriceDTO>>> PostCityCompany(IEnumerable<CityPriceDTO> cityPrices)
         {
             if (!ExistCityAndCompany(cityPrices))
@@ -192,6 +201,8 @@ namespace DevInSales.Controllers
 
         [HttpDelete]
         [Route("city/{cityPriceId}")]
+        [Authorize(Roles = "Administrador")]
+
         public async Task<IActionResult> DeleteCityPrice(int cityPriceId)
         {
             var cityPrice = await _context.CityPrice.FindAsync(cityPriceId);
@@ -207,6 +218,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrador")]
         [Route("state/{statePriceId}")]
         public async Task<IActionResult> DeleteStatePrice(int statePriceId)
         {

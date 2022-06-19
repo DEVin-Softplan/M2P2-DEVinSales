@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using DevInSales.Context;
 using DevInSales.Models;
 using DevInSales.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DevInSales.Controllers
 {
@@ -25,6 +26,7 @@ namespace DevInSales.Controllers
 
         // GET: api/State
         [HttpGet]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<IEnumerable<State>>> GetState(string name)
@@ -40,6 +42,7 @@ namespace DevInSales.Controllers
         }
         //GET /state/{state_id}/
         [HttpGet("/state/{state_id}")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         public async Task<ActionResult<IEnumerable<State>>> GetStateId(int state_id)
         {
             try
@@ -60,6 +63,7 @@ namespace DevInSales.Controllers
 
         // GET: api/State/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         public async Task<ActionResult<State>> GetState(int id)
         {
             var state = await _context.State.FindAsync(id);
@@ -73,6 +77,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpGet("{State_Id}/city")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<ActionResult<List<CityStateDTO>>> GetByStateIdCity(int State_Id, string name)
@@ -124,6 +129,7 @@ namespace DevInSales.Controllers
 
 
         [HttpGet("{State_Id}/city/{City_Id}")]
+        [Authorize(Roles = "Administrador,Gerente,Usuario")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CityStateDTO>> GetByStateIdCityId(int State_Id, int City_Id)
         {
@@ -152,6 +158,7 @@ namespace DevInSales.Controllers
         // PUT: api/State/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador,Gerente")]
         public async Task<IActionResult> PutState(int id, State state)
         {
             if (id != state.Id)
@@ -183,6 +190,7 @@ namespace DevInSales.Controllers
         // POST: api/State
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{state_id}/city")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -220,6 +228,7 @@ namespace DevInSales.Controllers
         }
 
         [HttpPost("{state_id}/city/{city_id}/address")]
+        [Authorize(Roles = "Administrador,Gerente")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -269,6 +278,7 @@ namespace DevInSales.Controllers
 
         // DELETE: api/State/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> DeleteState(int id)
         {
             var state = await _context.State.FindAsync(id);
