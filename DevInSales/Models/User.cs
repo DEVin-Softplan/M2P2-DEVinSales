@@ -16,7 +16,7 @@ public class User
     public DateTime BirthDate { get; set; }
     public Profile Profile { get; set; }
     public int ProfileId { get; set; }
-
+    public string Role { get; set; }
     public User()
     {
     }
