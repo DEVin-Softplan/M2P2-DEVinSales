@@ -103,5 +103,41 @@ namespace DevInSales.Test.OrderTest
             Assert.That(responseUsuario.StatusCode, Is.Not.EqualTo(System.Net.HttpStatusCode.Unauthorized));
             Assert.That(responseUsuario.StatusCode, Is.Not.EqualTo(System.Net.HttpStatusCode.Forbidden));
         }
+
+        [Test]
+        public async Task PermissionamentoPatchPrice()
+        {
+            OrderFactory factory = new OrderFactory();
+            var client = factory.CreateClient();
+            var clientAdmin = factory.CreateClient();
+            var clientGerente = factory.CreateClient();
+            var clientUsuario = factory.CreateClient();
+
+            // given
+
+            var tokenAdmin = TokenGenerator.GenerateToken(Security.EProfileType.Admin);
+            var tokenGerente = TokenGenerator.GenerateToken(Security.EProfileType.Gerente);
+            var tokenUsuario = TokenGenerator.GenerateToken(Security.EProfileType.Usuario);
+
+            clientAdmin.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenAdmin);
+            clientGerente.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenGerente);
+            clientUsuario.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenUsuario);
+
+            // when
+
+            var response = await client.PatchAsync("/api/order/1/product/1/price/1", null);
+            var responseAdmin = await clientAdmin.PatchAsync("/api/order/1/product/1/price/1", null);
+            var responseGerente = await clientGerente.PatchAsync("/api/order/1/product/1/price/1", null);
+            var responseUsuario = await clientUsuario.PatchAsync("/api/order/1/product/1/price/1", null);
+
+            // then
+
+            Assert.That(response.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.Unauthorized));
+            Assert.That(responseAdmin.StatusCode, Is.Not.EqualTo(System.Net.HttpStatusCode.Unauthorized));
+            Assert.That(responseAdmin.StatusCode, Is.Not.EqualTo(System.Net.HttpStatusCode.Forbidden));
+            Assert.That(responseGerente.StatusCode, Is.Not.EqualTo(System.Net.HttpStatusCode.Unauthorized));
+            Assert.That(responseGerente.StatusCode, Is.Not.EqualTo(System.Net.HttpStatusCode.Forbidden));
+            Assert.That(responseUsuario.StatusCode, Is.EqualTo(System.Net.HttpStatusCode.Forbidden));
+        }
     }
 }
