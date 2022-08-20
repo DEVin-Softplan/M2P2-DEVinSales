@@ -195,7 +195,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 <table>
    <tr>
       <td align="center">
-         <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/GuiVeigaSesiSenai" width="100px;" alt="avatar Guilherme"/><br />
+         <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/GuiVeiga" width="100px;" alt="avatar Guilherme"/><br />
          <sub><b>Guilherme Veiga</b></sub>
          <br/>
       </td>
